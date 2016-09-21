@@ -15,28 +15,52 @@
             </MenuItem>
         </Menu>
         <TabControl x:Name="tabControl" FontFamily="Cambria Math" FontWeight="Bold">
-            <TabItem Header="Create Orders" FontWeight="Normal" >
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="88*"/>
-                        <ColumnDefinition Width="192*"/>
-                        <ColumnDefinition Width="231*"/>
-                    </Grid.ColumnDefinitions>
-                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="2,3,0,0" VerticalAlignment="Top" Width="129" Grid.Column="1" Height="22"/>
-                    <Label x:Name="label" Content="Customer:" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="80" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
-                    <Label x:Name="label_Copy" Content="Container:" HorizontalAlignment="Left" Margin="0,35,0,0" VerticalAlignment="Top" Width="81" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
-                    <Label x:Name="label_Copy1" Content="Size:" HorizontalAlignment="Left" Margin="1,35,0,0" VerticalAlignment="Top" Width="44" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Grid.Column="2" Height="24"/>
-                    <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="2,64,0,0" VerticalAlignment="Top" Width="65" Grid.Column="2" IsEditable="True" Height="22"/>
-                    <Label x:Name="label_Copy2" Content="Terminal:" HorizontalAlignment="Left" Margin="0,64,0,0" VerticalAlignment="Top" Width="77" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
-                    <ComboBox x:Name="comboBox_Copy" HorizontalAlignment="Left" Margin="2,35,0,0" VerticalAlignment="Top" Width="185" IsEditable="True" Height="22" Grid.Column="1"/>
-                    <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="2,64,0,0" VerticalAlignment="Top" Width="184" IsEditable="True" Grid.Column="1" Height="22"/>
-                    <CheckBox x:Name="checkBox" Content="Repeat Order" Grid.Column="1" HorizontalAlignment="Left" Margin="138,5,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="121" Height="15" ClickMode="Press" FontFamily="Cambria Math" TextOptions.TextHintingMode="Fixed" FontSize="13.333"/>
-                    <Label x:Name="label_Copy3" Content="Last Free Day:" HorizontalAlignment="Left" Margin="0,95,0,0" VerticalAlignment="Top" Width="106" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" Grid.ColumnSpan="2"/>
-                    <DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="31,95,0,0" VerticalAlignment="Top" Width="152" FontSize="16"/>
+            <TabItem Header="Create Order" FontWeight="Normal" >
+                <Grid Background="#FFE5E5E5" RenderTransformOrigin="-0.561,0.735" Margin="0,27,0,-27" >
+
+                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="102,4,0,0" VerticalAlignment="Top" Width="129" Height="22" />
+                    <Label x:Name="label" Content="Customer:" HorizontalAlignment="Left" Margin="5,3,0,0" VerticalAlignment="Top" Width="80" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+                    <Label x:Name="label_Copy" Content="Container:" HorizontalAlignment="Left" Margin="5,35,0,0" VerticalAlignment="Top" Width="81" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+                    <Label x:Name="label_Copy1" Content="Size:" HorizontalAlignment="Left" Margin="325,36,0,0" VerticalAlignment="Top" Width="44" Background="Transparent" FontSize="16" FontFamily="Cambria Math"  Height="24"/>
+                    <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="315,66,0,0" VerticalAlignment="Top" Width="65" IsEditable="True" Height="22" RenderTransformOrigin="1.349,0.392"/>
+                    <Label x:Name="label_Copy2" Content="Terminal:" HorizontalAlignment="Left" Margin="5,64,0,0" VerticalAlignment="Top" Width="77" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
+                    <ComboBox x:Name="comboBox_Copy" HorizontalAlignment="Left" Margin="102,35,0,0" VerticalAlignment="Top" Width="195" IsEditable="True" Height="22" />
+                    <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="102,64,0,0" VerticalAlignment="Top" Width="195" IsEditable="True"  Height="22"/>
+                    <CheckBox x:Name="checkBox" Content="Repeat Order"  HorizontalAlignment="Left" Margin="315,5,0,0" VerticalAlignment="Top" Width="121" Height="15" ClickMode="Press" FontFamily="Cambria Math" TextOptions.TextHintingMode="Fixed" FontSize="13.333"/>
+                    <Label x:Name="label_Copy3" Content="Last Free Day:" HorizontalAlignment="Left" Margin="5,95,0,0" VerticalAlignment="Top" Width="106" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+                    <DatePicker  HorizontalAlignment="Left" Margin="135,95,0,0" VerticalAlignment="Top" Width="162" FontSize="16" Height="27"/>
+                    <Label x:Name="label_Copy4" Content="Delivery&#xD;&#xA; Destination:" HorizontalAlignment="Left" Margin="5,116,0,0" VerticalAlignment="Top" Width="95" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="45"/>
+                    <ComboBox x:Name="comboBox_Copy2" HorizontalAlignment="Left" Margin="115,135,0,0" VerticalAlignment="Top" Width="184" IsEditable="True"  Height="22"/>
+                    <Label x:Name="label_Copy5" Content="Assign Driver:" HorizontalAlignment="Left" Margin="5,172,0,0" VerticalAlignment="Top" Width="124" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+                    <ComboBox x:Name="comboBox_Copy3" HorizontalAlignment="Left" Margin="115,172,0,0" VerticalAlignment="Top" Width="184"  Height="22"/>
+                    <Border BorderThickness="1" Height="30" Margin="0,-29,0,0" VerticalAlignment="Top" BorderBrush="Red" Background="#FFE5E5E5" >
+                        <Label x:Name="label3" Content="Create New Order"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                    </Border>
                 </Grid>
             </TabItem>
             <TabItem Header="View Orders" FontWeight="Normal" >
                 <Grid Margin="-46,-133,-127,-112" Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Customer" FontWeight="Normal" >
+                <Grid Margin="-46,-133,-127,-112" Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Driver Settings" FontWeight="Normal" >
+                <Grid Background="#FFE5E5E5" RenderTransformOrigin="-0.561,0.735" Margin="-8,0,8,0">
+                    <Border BorderThickness="1" Height="30" Margin="8,4,0,0" VerticalAlignment="Top" BorderBrush="Red" >
+                        <Label x:Name="label1" Content="Create New Driver"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                    </Border>
+                    <Label x:Name="label2" Content="First Name:" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="104" FontSize="16" FontWeight="Bold"/>
+                    <Label x:Name="label2_Copy" Content="Middle Name:" HorizontalAlignment="Left" Margin="5,66,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="108" FontSize="16" FontWeight="Bold"/>
+                    <Label x:Name="label2_Copy1" Content="Last Name:" HorizontalAlignment="Left" Margin="5,92,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="104" FontWeight="Bold" FontSize="16"/>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="114,40,0,0" VerticalAlignment="Top" Width="120" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="114,66,0,0" VerticalAlignment="Top" Width="120" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Height="23" Margin="114,92,0,0" VerticalAlignment="Top" Width="120" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <Label x:Name="label2_Copy2" Content="Email:" HorizontalAlignment="Left" Margin="248,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="59" FontSize="16" FontWeight="Bold"/>
+                    <Label x:Name="label2_Copy3" Content="Phone:" HorizontalAlignment="Left" Margin="248,66,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="61" FontSize="16" FontWeight="Bold"/>
+                    <TextBox x:Name="textBox_Copy2" HorizontalAlignment="Left" Height="23" Margin="313,41,0,0" VerticalAlignment="Top" Width="193" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <TextBox x:Name="textBox_Copy3" HorizontalAlignment="Left" Height="23" Margin="313,66,0,0" VerticalAlignment="Top" Width="142" FontSize="16" MaxLines="1" MinLines="1"/>
+
+                </Grid>
             </TabItem>
         </TabControl>
 
