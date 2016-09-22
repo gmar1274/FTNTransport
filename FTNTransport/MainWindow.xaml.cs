@@ -81,6 +81,35 @@ namespace FTNTransport
             }
         }
 
-      
+        private void phone_format(object sender, TextChangedEventArgs e)
+        {
+            if (textBox_phone.Text.Length <= 0) return;
+            char c = textBox_phone.Text.ToCharArray()[textBox_phone.Text.ToCharArray().Length-1];
+            try {
+                int x = Int32.Parse(c+"");
+            } catch(Exception ee) {
+                int end = textBox_phone.Text.ToCharArray().Length - 1;
+              string s = textBox_phone.Text.Substring(0, end);
+                textBox_phone.Text = s;
+                textBox_phone.SelectionStart = end;
+               
+                // textBox_phone.Background = System.Windows.Media.Brushes.Red;
+            }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+          
+        }
+
+        private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
