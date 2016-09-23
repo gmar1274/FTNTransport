@@ -5,6 +5,9 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using MyEncryption;
+using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+
 namespace FTNTransport
 {
     /// <summary>
@@ -27,33 +30,40 @@ namespace FTNTransport
 
             }
         }
-        private void loadDB()
+        private async void loadDB()
         {
             try
             {
                 Console.WriteLine("HERE");
-                Console.WriteLine(Encryption.encrypt("acba"));
+                Console.WriteLine(Encryption.encrypt("acbadriveracba"));
 
                 var client = new HttpClient();
 
                 var pairs = new List<KeyValuePair<string, string>>
     {
+                    new KeyValuePair<string, string>("driver", Encryption.encrypt("acbadriveracba")),
         new KeyValuePair<string, string>("pqpUserName", "admin"),
-        new KeyValuePair<string, string>("password", "test@123")
+        new KeyValuePair<string, string>("password", "test@123"),
+         new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
     };
 
                 var content = new FormUrlEncodedContent(pairs);
 
-                var response = client.PostAsync("youruri", content).Result;
-
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/driver.php", content);
+                response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
-
-
+                    Console.WriteLine("AYY GOOd");
+                    // HttpContent stream = response.Content;
+                    //Task<string> data = stream.ReadAsStringAsync();
+                    //JObject.Parse(data.);
+                    string json = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(json);
                 }
             }
-            catch {
-
+            catch (Exception eee)
+            {
+                Console.WriteLine(eee.ToString());
             }
         }
 
@@ -84,15 +94,18 @@ namespace FTNTransport
         private void phone_format(object sender, TextChangedEventArgs e)
         {
             if (textBox_phone.Text.Length <= 0) return;
-            char c = textBox_phone.Text.ToCharArray()[textBox_phone.Text.ToCharArray().Length-1];
-            try {
-                int x = Int32.Parse(c+"");
-            } catch(Exception ee) {
+            char c = textBox_phone.Text.ToCharArray()[textBox_phone.Text.ToCharArray().Length - 1];
+            try
+            {
+                int x = Int32.Parse(c + "");
+            }
+            catch (Exception ee)
+            {
                 int end = textBox_phone.Text.ToCharArray().Length - 1;
-              string s = textBox_phone.Text.Substring(0, end);
+                string s = textBox_phone.Text.Substring(0, end);
                 textBox_phone.Text = s;
                 textBox_phone.SelectionStart = end;
-               
+
                 // textBox_phone.Background = System.Windows.Media.Brushes.Red;
             }
         }
@@ -104,7 +117,7 @@ namespace FTNTransport
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-          
+
         }
 
         private void listView1_SelectionChanged(object sender, SelectionChangedEventArgs e)

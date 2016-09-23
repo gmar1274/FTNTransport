@@ -3,19 +3,10 @@
 public class Customer
 
 {
-    private string name;
-    private Order last_order;
-    public Order get_last_order{
-        get { return this.last_order; }
-        set
-        {
-            this.last_order =value;
-        }
-    }
-    public string get_name {
-        get { return this.name; }
-        set { this.name = value; }
-    }
+
+    private Order last_order { get; set; }
+    private string name { get; set; }
+    
 	public Customer()
 	{
 	}
@@ -25,6 +16,7 @@ public class Customer
     public Order getLastOrder()
     {
         Order o = new Order();
+        //get most recent order from DB
         return o;
     }
 

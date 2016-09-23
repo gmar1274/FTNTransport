@@ -38,7 +38,7 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <TabItem Header="View Orders" FontWeight="Normal" >
+            <TabItem Header="View Orders" FontWeight="Normal" Height="20" VerticalAlignment="Top" IsSelected="True" >
                 <Grid  Background="#FFE5E5E5">
                     <ListView x:Name="listView1"  SelectionChanged="listView1_SelectionChanged" Margin="0,90,0,0">
                         <ListView.View>
@@ -59,7 +59,11 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Customer" FontWeight="Normal" >
-                <Grid Margin="-46,-133,-127,-112" Background="#FFE5E5E5"/>
+                <Grid  Background="#FFE5E5E5">
+                    <Border BorderThickness="1" Height="30" Margin="8,4,0,0" VerticalAlignment="Top" BorderBrush="Red" >
+                        <Label x:Name="label5" Content="Create New Customer"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                    </Border>
+                </Grid>
             </TabItem>
             <TabItem Header="Driver Settings" FontWeight="Normal" >
                 <Grid Background="#FFE5E5E5" RenderTransformOrigin="-0.561,0.735" Margin="-8,0,8,0">
