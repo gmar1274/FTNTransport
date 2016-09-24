@@ -74,6 +74,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Destination.cs" />
     <Compile Include="Objects\Driver.cs" />
     <Compile Include="Objects\Encryption.cs" />
     <Compile Include="Objects\Order.cs" />
