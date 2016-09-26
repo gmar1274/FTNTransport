@@ -78,6 +78,7 @@
     <Compile Include="Objects\Driver.cs" />
     <Compile Include="Objects\Encryption.cs" />
     <Compile Include="Objects\Order.cs" />
+    <Compile Include="Objects\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
