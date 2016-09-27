@@ -2,11 +2,24 @@
 
 public class Destination
 {
-    private string name { get; set; }
-    private long id { get; set; }
-    public Destination()
-    {
+    public string name { get; set; }
+    public string address { get; set; }
+    public string city { get; set; }
+    public string state { get; set; }
+    public string zipcode { get; set; }
+    public long id { get; set; }
 
+    public Destination(long id, string name, string addr, string city, string state, string zip)
+    {
+        this.name = name;
+        this.address = addr;
+        this.city = city;
+        this.state = state;
+        this.id = id;
+        this.zipcode = zip;
+    }
+    public override string ToString() {
+        return this.name;
     }
 }
 
