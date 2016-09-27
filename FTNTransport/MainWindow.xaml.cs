@@ -83,7 +83,7 @@ namespace FTNTransport
         private void loadDB()
         {
             MyWebServices.WebService.loadDriverDB(this);
-
+            MyWebServices.WebService.loadDestinationDB(this);
             //load customers 
             // load destinations
             //load orders

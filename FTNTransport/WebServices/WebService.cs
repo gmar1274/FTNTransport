@@ -146,7 +146,7 @@ namespace MyWebServices
             }
         }
 
-        private static async void loadDestinationDB(MainWindow mw)
+        public static async void loadDestinationDB(MainWindow mw)
         {
             try
             {
