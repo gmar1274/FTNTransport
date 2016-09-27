@@ -24,8 +24,8 @@
                     <Label x:Name="label_Copy1" Content="Size:" HorizontalAlignment="Left" Margin="325,36,0,0" VerticalAlignment="Top" Width="44" Background="Transparent" FontSize="16" FontFamily="Cambria Math"  Height="24"/>
                     <ComboBox x:Name="comboBox_size" HorizontalAlignment="Left" Margin="315,66,0,0" VerticalAlignment="Top" Width="65" Height="22" RenderTransformOrigin="1.349,0.392"/>
                     <Label x:Name="label_Copy2" Content="Terminal:" HorizontalAlignment="Left" Margin="5,64,0,0" VerticalAlignment="Top" Width="77" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
-                    <ComboBox x:Name="comboBox_container" HorizontalAlignment="Left" Margin="102,35,0,0" VerticalAlignment="Top" Width="195" Height="22" />
-                    <ComboBox x:Name="comboBox_Terminal" HorizontalAlignment="Left" Margin="102,64,0,0" VerticalAlignment="Top" Width="195"  Height="22"/>
+                    <ComboBox x:Name="comboBox_container" HorizontalAlignment="Left" Margin="102,35,0,0" VerticalAlignment="Top" Width="195" Height="22" IsEditable="True" />
+                    <ComboBox x:Name="comboBox_terminal" HorizontalAlignment="Left" Margin="102,64,0,0" VerticalAlignment="Top" Width="195"  Height="22" IsEditable="True"/>
                     <CheckBox x:Name="checkBox_repeat_order" Content="Repeat Order"  HorizontalAlignment="Left" Margin="315,5,0,0" VerticalAlignment="Top" Width="121" Height="15" ClickMode="Press" FontFamily="Cambria Math" TextOptions.TextHintingMode="Fixed" FontSize="13.333"/>
                     <Label x:Name="label_lfd" Content="Last Free Day:" HorizontalAlignment="Left" Margin="5,95,0,0" VerticalAlignment="Top" Width="106" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
                     <DatePicker  HorizontalAlignment="Left" Margin="135,95,0,0" VerticalAlignment="Top" Width="162" FontSize="16" Height="27"/>
@@ -119,17 +119,44 @@
                     <Border BorderThickness="1" Height="30" Margin="5,4,3,0" VerticalAlignment="Top" BorderBrush="Red" >
                         <Label x:Name="label8" Content="Create New Destination"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                     </Border>
-                    <Label x:Name="label9" Content="Location Name:" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" Width="109" FontSize="14.667" Height="25"/>
-                    <TextBox x:Name="textBox_companyname" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" FontSize="16"/>
-                    <Label x:Name="label9_Copy" Content="Address:" HorizontalAlignment="Left" Margin="5,70,0,0" VerticalAlignment="Top" Width="64" FontSize="14.667" Height="25"/>
-                    <TextBox x:Name="textBox1_address" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" FontSize="16"/>
-                    <Label x:Name="label9_Copy1" Content="City:" HorizontalAlignment="Left" Margin="424,40,0,0" VerticalAlignment="Top" Width="64" FontSize="14.667" Height="25"/>
-                    <Label x:Name="label9_Copy2" Content="Zipcode: " HorizontalAlignment="Left" Margin="424,70,0,0" VerticalAlignment="Top" Width="64" FontSize="14.667" Height="25"/>
+                    <Label x:Name="label9" Content="Location Name:" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Height="25"/>
+                    <TextBox x:Name="textBox_companyname" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="123,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" FontSize="16"/>
+                    <Label x:Name="label9_Copy" Content="Address:" HorizontalAlignment="Left" Margin="5,70,0,0" VerticalAlignment="Top" Width="86" FontSize="16" Height="25"/>
+                    <TextBox x:Name="textBox1_address" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="123,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" FontSize="16"/>
+                    <Label x:Name="label9_Copy1" Content="City:" HorizontalAlignment="Left" Margin="422,40,0,0" VerticalAlignment="Top" Width="44" FontSize="16" Height="25"/>
+                    <Label x:Name="label9_Copy2" Content="Zipcode: " HorizontalAlignment="Left" Margin="419,70,0,0" VerticalAlignment="Top" Width="69" FontSize="16" Height="25"/>
                     <TextBox x:Name="textBox1_city" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="465,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" FontSize="16"/>
                     <TextBox x:Name="textBox1_zipcode" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="489,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" FontSize="16" TextChanged="zipCodeFormatter"/>
-                    <Label x:Name="label9_Copy3" Content="State:" HorizontalAlignment="Left" Margin="565,70,0,0" VerticalAlignment="Top" Width="64" FontSize="14.667" Height="25"/>
+                    <Label x:Name="label9_Copy3" Content="State:" HorizontalAlignment="Left" Margin="565,70,0,0" VerticalAlignment="Top" Width="64" FontSize="16" Height="25"/>
                     <ComboBox x:Name="comboBox_state" HorizontalAlignment="Left" Margin="618,70,0,0" VerticalAlignment="Top" Width="97" FontSize="16"/>
-                    <Button x:Name="button_create_destination" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"  Content="Create Destination&#xD;&#xA;" HorizontalAlignment="Left" Height="44" Margin="5,101,0,0" VerticalAlignment="Top" Width="148" FontSize="13.333" TextOptions.TextFormattingMode="Display" Click="button_create_destination_Click"/>
+                    <Button x:Name="button_create_destination" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"  Content="Create Destination&#xD;&#xA;" HorizontalAlignment="Left" Height="44" Margin="5,101,0,0" VerticalAlignment="Top" Width="148" FontSize="14.667" TextOptions.TextFormattingMode="Display" Click="button_create_destination_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Truck Settings" FontWeight="Normal" >
+                <Grid Background="#FFE5E5E5" >
+                    <Border BorderThickness="1" Height="30" Margin="5,4,3,0" VerticalAlignment="Top" BorderBrush="Red" >
+                        <Label x:Name="l" Content="Create New Truck"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                    </Border>
+                    <Label x:Name="label9_Copy4" Content="Truck Name:" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" Width="109" FontSize="16" Height="25"/>
+                    <TextBox x:Name="textBox_truck_name" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16"/>
+                    <Label x:Name="label9_Copy5" Content="License Plate:" HorizontalAlignment="Left" Margin="5,70,0,0" VerticalAlignment="Top" Width="109" FontSize="16" Height="25"/>
+                    <Label x:Name="label9_Copy6" Content="Cargo Capacity:" HorizontalAlignment="Left" Margin="5,100,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Height="32"/>
+                    <TextBox x:Name="textBox_truck_licenseplate" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16"/>
+                    <TextBox x:Name="textBox_truck_cargocapacity" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16"/>
+                    <Button x:Name="button_truck" Content="Create Truck" HorizontalAlignment="Left" Margin="653,39,0,0" VerticalAlignment="Top" Width="145" Height="82" FontSize="14.667" Click="button_truck_Click"/>
+                    <Label x:Name="label9_Copy7" Content="MPG:" HorizontalAlignment="Left" Margin="379,40,0,0" VerticalAlignment="Top" Width="55" FontSize="16" Height="32"/>
+                    <TextBox x:Name="textBox_truck_mpg" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="431,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" FontSize="16"/>
+                    <ListView x:Name="listView_truck" Margin="0,246,0,1" FontSize="16" FontWeight="Bold" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="Auto"  Header="ID" DisplayMemberBinding="{Binding id}"/>
+                                <GridViewColumn Width="Auto" Header="Truck Name" DisplayMemberBinding="{Binding name}"/>
+                                <GridViewColumn Width="Auto" Header="License Plate" DisplayMemberBinding="{Binding license_plate}"/>
+                                <GridViewColumn Width="Auto" Header="MPG" DisplayMemberBinding="{Binding mpg}"/>
+                            </GridView>
+
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </TabItem>
         </TabControl>

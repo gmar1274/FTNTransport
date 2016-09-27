@@ -22,8 +22,8 @@ namespace FTNTransport
         public Dictionary<string, Destination> dictionary_destination { set; get; }
         public MainWindow()
         {
-            intit();
             InitializeComponent();
+            intit();
             loadDB();
             populateStates();
 
@@ -82,10 +82,10 @@ namespace FTNTransport
         /**Load all databases*/
         private void loadDB()
         {
-            MyWebServices.WebService.loadDriverDB(this);
-            MyWebServices.WebService.loadDestinationDB(this);
-            //load customers 
-            // load destinations
+            MyWebServices.WebService.loadDriverDB(this);//load Drivers from DB
+            MyWebServices.WebService.loadDestinationDB(this); // load destinations
+                                                              //load customers 
+
             //load orders
         }
 
@@ -95,6 +95,11 @@ namespace FTNTransport
             dictionary_orders = new Dictionary<string, Order>();
             dictionary_customers = new Dictionary<string, Customer>();
             dictionary_destination = new Dictionary<string, Destination>();
+            int[] arr = { 20, 40, 45 };
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                this.comboBox_size.Items.Add(arr[i]);
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -252,7 +257,7 @@ namespace FTNTransport
 
             if (good == false) return;
            
-            MyWebServices.WebService.insertDestinationrDB(this,new string[] { name, addr, city, state, zip });
+            MyWebServices.WebService.insertDestinationDB(this,new string[] { name, addr, city, state, zip });
             clearErrors();
             ///send to db
             ///I got to create a webservice for this
@@ -260,5 +265,12 @@ namespace FTNTransport
         private void setError(TextBox tb) {
             tb.Background = Brushes.Red;
         }
+
+        private void button_truck_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+       
     }
 }

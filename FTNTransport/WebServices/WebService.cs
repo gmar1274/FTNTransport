@@ -74,6 +74,8 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
+
+                MessageBox.Show("Error. No data has been saved.");
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -108,11 +110,13 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
+
+                MessageBox.Show("Error. No data has been saved.");
                 Console.WriteLine(eee.ToString());
             }
         }
         //POST data to driver.php 
-        public static async void insertDestinationrDB(MainWindow mw, string[] arr)
+        public static async void insertDestinationDB(MainWindow mw, string[] arr)
         {
             try
             {
@@ -142,6 +146,8 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
+
+                MessageBox.Show("Error. No data has been saved.");
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -194,8 +200,46 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
+
+                MessageBox.Show("Error. No data has been saved.");
                 Console.WriteLine(eee.ToString());
             }
         }
-    }
-}
+
+        //POST data to driver.php 
+        public static async void insertTruckDB(MainWindow mw, string[] arr)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("truck", Encryption.encrypt("acbatruckacba")),
+        new KeyValuePair<string, string>("name", arr[0]),
+        new KeyValuePair<string, string>("license", arr[1]),
+         new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
+          new KeyValuePair<string, string>("city", arr[2]),
+        new KeyValuePair<string, string>("state",arr[3] ),
+        new KeyValuePair<string, string>("zipcode", arr[4]),
+         new KeyValuePair<string, string>("insert","true")// Company.Name)
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/truck.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Success. Truck has been added!");
+                    loadDestinationDB(mw);
+                }
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show("Error. No data has been saved.");
+                Console.WriteLine(eee.ToString());
+            }
+        }
+    }///end namespace
+}//end class
