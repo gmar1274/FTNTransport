@@ -279,8 +279,8 @@ namespace MyWebServices
                             mw.listView_truck.Items.Add(t);
                         }
                     }
+                    mw.populateComboBoxes();
                 }
-                mw.populateComboBoxes();
             }
             catch (Exception eee)
             {

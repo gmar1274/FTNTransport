@@ -28,7 +28,7 @@ namespace FTNTransport
             intit();
             loadDB();
             populateStates();
-
+           
         }
 
         private async void populateStates()
@@ -45,10 +45,12 @@ namespace FTNTransport
             {
                 fillComboBox(this.comboBox_driver, this.dictionary_drivers);
             }
-            if (this.dictionary_trucks != null) {
+            if (this.dictionary_trucks != null)
+            {
                 fillComboBox(this.comboBox_truck, this.dictionary_trucks);
             }
-            if (this.dictionary_destination != null) {
+            if (this.dictionary_destination != null)
+            {
                 fillComboBox(this.comboBox_destination, this.dictionary_destination);
             }
         }
@@ -72,9 +74,10 @@ namespace FTNTransport
         {
             foreach (string id in d.Keys)
             {
-
-                cb.Items.Add(d[id].ToString());
-
+                if (!cb.Items.Contains(d[id].name.ToUpper())) 
+                {
+                    cb.Items.Add(d[id].name.ToUpper());
+                }
             }
         }
 
@@ -83,16 +86,21 @@ namespace FTNTransport
             foreach (string id in d.Keys)
             {
 
-                cb.Items.Add(d[id]);
-               
+                if (!cb.Items.Contains(d[id].ToString().ToUpper()))
+                {
+                    cb.Items.Add(d[id].ToString().ToUpper());
+                }
+
             }
         }
         private async void fillComboBox(ComboBox cb, Dictionary<string, Truck> t)
         {
             foreach (string id in t.Keys)
             {
-
-                cb.Items.Add(t[id].name.ToUpper());
+                if (!cb.Items.Contains(t[id].name.ToUpper()))
+                {
+                    cb.Items.Add(t[id].name.ToUpper());
+                }
 
             }
         }
