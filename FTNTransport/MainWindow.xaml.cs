@@ -20,6 +20,8 @@ namespace FTNTransport
         public Dictionary<string, Order> dictionary_orders { set; get; }
         public Dictionary<string, Customer> dictionary_customers { set; get; }
         public Dictionary<string, Destination> dictionary_destination { set; get; }
+        public Dictionary<string, Truck> dictionary_trucks { set; get; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,11 +39,17 @@ namespace FTNTransport
             comboBox_state.SelectedIndex = comboBox_state.Items.IndexOf("CA");
         }
 
-        public void populateComboBoxes()
+        public async void populateComboBoxes()
         {
             if (this.dictionary_drivers != null)
             {
-                fillComboBox<Driver>(this.comboBox_driver, this.dictionary_drivers);
+                fillComboBox(this.comboBox_driver, this.dictionary_drivers);
+            }
+            if (this.dictionary_trucks != null) {
+                fillComboBox(this.comboBox_truck, this.dictionary_trucks);
+            }
+            if (this.dictionary_destination != null) {
+                fillComboBox(this.comboBox_destination, this.dictionary_destination);
             }
         }
 
@@ -60,7 +68,7 @@ namespace FTNTransport
               //  Console.WriteLine(" Obj::: " + d[id].GetType());
             }
         }*/
-        private void fillComboBox<T>(ComboBox cb, Dictionary<string, Driver> d)
+        private async void fillComboBox(ComboBox cb, Dictionary<string, Driver> d)
         {
             foreach (string id in d.Keys)
             {
@@ -70,13 +78,22 @@ namespace FTNTransport
             }
         }
 
-        private void fillComboBox(ComboBox cb, Dictionary<long, Destination> d)
+        private async void fillComboBox(ComboBox cb, Dictionary<string, Destination> d)
         {
-            foreach (long id in d.Keys)
+            foreach (string id in d.Keys)
             {
 
                 cb.Items.Add(d[id]);
                
+            }
+        }
+        private async void fillComboBox(ComboBox cb, Dictionary<string, Truck> t)
+        {
+            foreach (string id in t.Keys)
+            {
+
+                cb.Items.Add(t[id].name.ToUpper());
+
             }
         }
         /**Load all databases*/
@@ -84,7 +101,7 @@ namespace FTNTransport
         {
             MyWebServices.WebService.loadDriverDB(this);//load Drivers from DB
             MyWebServices.WebService.loadDestinationDB(this); // load destinations
-                                                              //load customers 
+            MyWebServices.WebService.loadTruckDB(this);                                                //load customers 
 
             //load orders
         }
@@ -95,6 +112,8 @@ namespace FTNTransport
             dictionary_orders = new Dictionary<string, Order>();
             dictionary_customers = new Dictionary<string, Customer>();
             dictionary_destination = new Dictionary<string, Destination>();
+
+            dictionary_trucks = new Dictionary<string, Truck>();
             int[] arr = { 20, 40, 45 };
             for (int i = 0; i < arr.Length; ++i)
             {
@@ -262,15 +281,50 @@ namespace FTNTransport
             ///send to db
             ///I got to create a webservice for this
         }
+
+       
+
         private void setError(TextBox tb) {
             tb.Background = Brushes.Red;
         }
 
         private void button_truck_Click(object sender, RoutedEventArgs e)
         {
-
+            bool good = true;
+            if (this.textBox_truck_name.Text.Length == 0) { good = false; setError(this.textBox_truck_name);
+            }
+            if (this.textBox_truck_licenseplate.Text.Length == 0) { good = false; setError(this.textBox_truck_licenseplate); }
+            if (this.textBox_truck_cargocapacity.Text.Length == 0) { good = false; setError(this.textBox_truck_cargocapacity); }
+            if (this.textBox_truck_mpg.Text.Length == 0 || !isNumeric(this.textBox_truck_mpg.Text)) { good = false; setError(this.textBox_truck_mpg); }
+            if (good == false) return;
+            MyWebServices.WebService.insertTruckDB(this,new string[]{ this.textBox_truck_name.Text, this.textBox_truck_licenseplate.Text,this.textBox_truck_cargocapacity.Text,this.textBox_truck_mpg.Text });
+            clearErrors();
+            MyWebServices.WebService.loadTruckDB(this);
         }
 
-       
+        private bool isNumeric(string text)
+        {
+            try {
+                Int32.Parse(text);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        private void textBox_truck_licenseplate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int size = this.textBox_truck_licenseplate.Text.Length;
+            if (this.textBox_truck_licenseplate.Text.Length > 8)
+            {
+                this.textBox_truck_licenseplate.Text = this.textBox_truck_licenseplate.Text.Substring(0,size-1);
+                this.textBox_truck_licenseplate.SelectionStart = size - 1;
+            }
+        }
+
+        private void textBox_truck_mpg_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -42,11 +42,11 @@
             </TabItem>
             <TabItem Header="View Orders" FontWeight="Normal" Height="20" VerticalAlignment="Top" IsSelected="True" >
                 <Grid  Background="#FFE5E5E5">
-                    <ListView x:Name="listView1" Margin="0,90,0,0">
+                    <ListView x:Name="listView_order" Margin="0,90,0,0" FontSize="13.333">
                         <ListView.View>
-                            <GridView ColumnHeaderStringFormat="">
+                            <GridView ColumnHeaderStringFormat="" AllowsColumnReorder="False">
                                 <GridView.ColumnHeaderContextMenu>
-                                    <ContextMenu MinHeight="10" MinWidth="10"/>
+                                    <ContextMenu MinHeight="10" MinWidth="10" FontSize="10" Foreground="Black" FontFamily="Cambria Math"/>
                                 </GridView.ColumnHeaderContextMenu>
                                 <GridViewColumn Header="Order ID" Width="80"/>
                                 <GridViewColumn Header="Date Created" Width="80"/>
@@ -97,9 +97,14 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="792*"/>
                             </Grid.ColumnDefinitions>
-                            <ListView x:Name="listView_driver" Grid.ColumnSpan="2"  Margin="0,54,0,-1" >
+                            
+                            <ListView x:Name="listView_driver" Grid.ColumnSpan="2"  Margin="0,54,0,-1" FontSize="13.333" >
+                                
                                 <ListView.View>
-                                    <GridView>
+                                    <GridView AllowsColumnReorder="False">
+                                       
+                                        
+                                        
                                         <GridViewColumn Width="Auto"  Header="ID" DisplayMemberBinding="{Binding id}"/>
                                         <GridViewColumn Width="Auto" Header="Name" DisplayMemberBinding="{Binding name}"/>
                                         <GridViewColumn Width="Auto" Header="Email" DisplayMemberBinding="{Binding email}"/>
@@ -141,17 +146,18 @@
                     <TextBox x:Name="textBox_truck_name" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16"/>
                     <Label x:Name="label9_Copy5" Content="License Plate:" HorizontalAlignment="Left" Margin="5,70,0,0" VerticalAlignment="Top" Width="109" FontSize="16" Height="25"/>
                     <Label x:Name="label9_Copy6" Content="Cargo Capacity:" HorizontalAlignment="Left" Margin="5,100,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Height="32"/>
-                    <TextBox x:Name="textBox_truck_licenseplate" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16"/>
+                    <TextBox x:Name="textBox_truck_licenseplate" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16" TextChanged="textBox_truck_licenseplate_TextChanged"/>
                     <TextBox x:Name="textBox_truck_cargocapacity" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="248" FontSize="16"/>
-                    <Button x:Name="button_truck" Content="Create Truck" HorizontalAlignment="Left" Margin="653,39,0,0" VerticalAlignment="Top" Width="145" Height="82" FontSize="14.667" Click="button_truck_Click"/>
+                    <Button x:Name="button_truck" Content="Create Truck" HorizontalAlignment="Left" Margin="546,39,0,0" VerticalAlignment="Top" Width="145" Height="82" FontSize="14.667" Click="button_truck_Click"/>
                     <Label x:Name="label9_Copy7" Content="MPG:" HorizontalAlignment="Left" Margin="379,40,0,0" VerticalAlignment="Top" Width="55" FontSize="16" Height="32"/>
-                    <TextBox x:Name="textBox_truck_mpg" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="431,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" FontSize="16"/>
-                    <ListView x:Name="listView_truck" Margin="0,246,0,1" FontSize="16" FontWeight="Bold" >
+                    <TextBox x:Name="textBox_truck_mpg" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="431,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" FontSize="16" TextChanged="textBox_truck_mpg_TextChanged"/>
+                    <ListView x:Name="listView_truck" Margin="0,246,0,1" FontSize="13.333" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="Auto"  Header="ID" DisplayMemberBinding="{Binding id}"/>
                                 <GridViewColumn Width="Auto" Header="Truck Name" DisplayMemberBinding="{Binding name}"/>
                                 <GridViewColumn Width="Auto" Header="License Plate" DisplayMemberBinding="{Binding license_plate}"/>
+                                <GridViewColumn Width="Auto" Header="Cargo Capacity" DisplayMemberBinding="{Binding cargo_capacity}"/>
                                 <GridViewColumn Width="Auto" Header="MPG" DisplayMemberBinding="{Binding mpg}"/>
                             </GridView>
 

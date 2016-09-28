@@ -206,7 +206,7 @@ namespace MyWebServices
             }
         }
 
-        //POST data to driver.php 
+        //POST data to truck.php 
         public static async void insertTruckDB(MainWindow mw, string[] arr)
         {
             try
@@ -217,12 +217,11 @@ namespace MyWebServices
     {
                     new KeyValuePair<string, string>("truck", Encryption.encrypt("acbatruckacba")),
         new KeyValuePair<string, string>("name", arr[0]),
-        new KeyValuePair<string, string>("license", arr[1]),
+        new KeyValuePair<string, string>("license_plate", arr[1]),
          new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
-          new KeyValuePair<string, string>("city", arr[2]),
-        new KeyValuePair<string, string>("state",arr[3] ),
-        new KeyValuePair<string, string>("zipcode", arr[4]),
-         new KeyValuePair<string, string>("insert","true")// Company.Name)
+          new KeyValuePair<string, string>("cargo", arr[2]),
+          new KeyValuePair<string, string>("mpg", arr[3]),
+         new KeyValuePair<string, string>("insert","true")
     };
 
                 var content = new FormUrlEncodedContent(pairs);
@@ -232,8 +231,56 @@ namespace MyWebServices
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Success. Truck has been added!");
-                    loadDestinationDB(mw);
+                    loadTruckDB(mw);
+                    mw.populateComboBoxes();
                 }
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show("Error. No data has been saved.");
+                Console.WriteLine(eee.ToString());
+            }
+        }
+        public static async void loadTruckDB(MainWindow mw)
+        {
+            try
+            {
+
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("truck", Encryption.encrypt("acbatruckacba")),
+
+         new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/truck.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    JArray a = JArray.Parse(json);
+                    for (int i = 0; i < a.Count; ++i)
+                    {
+                        var item = (JObject)a[i];
+                        long id = Int64.Parse(item.GetValue("id").ToString());
+                        string name = item.GetValue("name").ToString();
+                        string lp = item.GetValue("license_plate").ToString();
+                        string cargo = item.GetValue("cargo_capacity").ToString();
+                        int mpg = Int32.Parse(item.GetValue("mpg").ToString());
+                        Truck t = new Truck(id, name, lp, cargo,mpg);
+                        if (!mw.dictionary_trucks.ContainsKey(t.name))
+                        {
+                            mw.dictionary_trucks.Add(t.name, t);
+                            mw.listView_truck.Items.Add(t);
+                        }
+                    }
+                }
+                mw.populateComboBoxes();
             }
             catch (Exception eee)
             {
