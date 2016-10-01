@@ -8,25 +8,29 @@ public class Driver
     public string mname { get; set; }
     public string lname { get; set; }
     public string phone { get; set; }
+    public string routing_number { get; set; }
+    public string account_number { get; set; }
     public string name { get { return getNameString(); }  }
 
 	public Driver()
 	{
 	}
-    public Driver(long id,string fname,string mname,string lname,string email,string phone) {
+    public Driver(long id,string fname,string mname,string lname,string email,string phone,string rn, string an) {
         this.id = id;
         this.fname = fname;
         this.mname = mname;
         this.lname = lname;
         this.email = email;
         this.phone = phone;
+        this.routing_number = rn;
+        this.account_number = an;
     }
     private string getNameString()
     {
         if (mname.Length == 0) return fname + " " + lname;
         return fname + " " + mname + " " + lname;
     }
-    public string ToString()
+    public override string ToString()
     {
        
         return this.getNameString();

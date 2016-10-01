@@ -38,7 +38,11 @@ namespace FTNTransport
             }
             comboBox_state.SelectedIndex = comboBox_state.Items.IndexOf("CA");
         }
-
+        /**
+        *Populates the comboboxes from the values in the dictionary data structures
+        * That were filled from a DB call from loadDB().
+        *
+        */
         public async void populateComboBoxes()
         {
             if (this.dictionary_drivers != null)
@@ -53,6 +57,10 @@ namespace FTNTransport
             {
                 fillComboBox(this.comboBox_destination, this.dictionary_destination);
             }
+            if(this.dictionary_customers != null)
+            {
+                fillComboBox(this.comboBox_customer,this.dictionary_customers);
+            }
         }
 
         /// <summary>
@@ -61,22 +69,32 @@ namespace FTNTransport
         /// <typeparam name="T"></typeparam>
         /// <param name="cb"></param>
         /// <param name="d"></param>
-      /**  private void fillComboBox<T>(ComboBox cb, Dictionary<long, T> d)
+        /**  private void fillComboBox<T>(ComboBox cb, Dictionary<long, T> d)
+          {
+              foreach (long id in d.Keys)
+              {
+                
+                  cb.Items.Add(d[id]);
+                //  Console.WriteLine(" Obj::: " + d[id].GetType());
+              }
+          }*/
+        private async void fillComboBox(ComboBox cb, Dictionary<string, Customer> d)
         {
-            foreach (long id in d.Keys)
+            foreach (string id in d.Keys)
             {
-              
-                cb.Items.Add(d[id]);
-              //  Console.WriteLine(" Obj::: " + d[id].GetType());
+                if (!cb.Items.Contains(d[id].name))
+                {
+                    cb.Items.Add(d[id].name);
+                }
             }
-        }*/
+        }
         private async void fillComboBox(ComboBox cb, Dictionary<string, Driver> d)
         {
             foreach (string id in d.Keys)
             {
-                if (!cb.Items.Contains(d[id].name.ToUpper())) 
+                if (!cb.Items.Contains(d[id].name)) 
                 {
-                    cb.Items.Add(d[id].name.ToUpper());
+                    cb.Items.Add(d[id].name);
                 }
             }
         }
@@ -86,9 +104,9 @@ namespace FTNTransport
             foreach (string id in d.Keys)
             {
 
-                if (!cb.Items.Contains(d[id].ToString().ToUpper()))
+                if (!cb.Items.Contains(d[id].ToString()))
                 {
-                    cb.Items.Add(d[id].ToString().ToUpper());
+                    cb.Items.Add(d[id].ToString());
                 }
 
             }
@@ -97,9 +115,9 @@ namespace FTNTransport
         {
             foreach (string id in t.Keys)
             {
-                if (!cb.Items.Contains(t[id].name.ToUpper()))
+                if (!cb.Items.Contains(t[id].name))
                 {
-                    cb.Items.Add(t[id].name.ToUpper());
+                    cb.Items.Add(t[id].name);
                 }
 
             }
@@ -109,7 +127,8 @@ namespace FTNTransport
         {
             MyWebServices.WebService.loadDriverDB(this);//load Drivers from DB
             MyWebServices.WebService.loadDestinationDB(this); // load destinations
-            MyWebServices.WebService.loadTruckDB(this);                                                //load customers 
+            MyWebServices.WebService.loadTruckDB(this);//load trucks
+            MyWebServices.WebService.loadCustomerDB(this);//load customers 
 
             //load orders
         }
@@ -221,6 +240,7 @@ namespace FTNTransport
             }
         }
       //clears all text in a tab and sets the background color to white
+      //resets all text boxes to empty
         private void clearErrors()
         {
             foreach (TextBox tb in FindVisualChildren<TextBox>(tabControl))///msy cause problems. May check all textboxes not in tab control selection 3
@@ -313,7 +333,7 @@ namespace FTNTransport
         private bool isNumeric(string text)
         {
             try {
-                Int32.Parse(text);
+                Int64.Parse(text);
                 return true;
             } catch (Exception e) {
                 return false;
@@ -333,6 +353,50 @@ namespace FTNTransport
         private void textBox_truck_mpg_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+        /**Create customer for DB
+        Field validation
+        */
+        private void button_create_customer_Click(object sender, RoutedEventArgs e)
+        {
+            string name = this.textBox_customer_name.Text;///Order of array 0
+            string email = this.textBox_customer_email.Text;//1
+            string phone = this.textBox_customer_phone.Text;//2
+            string routing = this.textBox_customer_routingNumber.Text;//3
+            string account = this.textBox_customer_accountNumber.Text;//4
+            bool good = true;//pretend all data is good
+            string[] arr = new string[] { name, email, phone, routing, account };
+            for (int i = 0; i < arr.Length; ++i)
+            {
+               // Console.WriteLine("i: "+i+" "+arr[i]);
+                if (arr[i].Length == 0 || !isNumeric(phone))
+                {
+                    MessageBox.Show("No data has been saved. "+" Debug mode: index ["+i+"] ");
+                    good = false;
+                    return;
+                }
+            }
+            if (good)
+            {
+                MyWebServices.WebService.insertCustomerDB(this, arr);
+                clearErrors();
+            }
+        }
+
+        private void textBox_customer_phone_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ///implement numeric checker
+        }
+
+        private void comboBox_customer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string cust_name = this.comboBox_customer.SelectedItem.ToString();
+            ///fetch a DB call for Last recent ORDER if any and fill out the fields
+            ///
+            if (this.dictionary_customers.ContainsKey(cust_name))
+            {
+                this.checkBox_repeat_order.IsEnabled = true;
+            }
         }
     }
 }

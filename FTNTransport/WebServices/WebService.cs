@@ -47,7 +47,10 @@ namespace MyWebServices
                         string lname = item.GetValue("lname").ToString();
                         string email = item.GetValue("email").ToString();
                         string phone = item.GetValue("phone").ToString();
-                        Driver d = new Driver(id, fname, mname, lname, email, phone);
+                        string rn = item.GetValue("routing_number").ToString();
+                        string an = item.GetValue("account_number").ToString();
+
+                        Driver d = new Driver(id, fname, mname, lname, email, phone,rn,an);
                         if (!mw.dictionary_drivers.ContainsKey(d.name))
                         {
                             mw.dictionary_drivers.Add(d.name, d);
@@ -95,6 +98,8 @@ namespace MyWebServices
           new KeyValuePair<string, string>("lname", arr[2]),
         new KeyValuePair<string, string>("email",arr[3] ),
         new KeyValuePair<string, string>("phone", arr[4]),
+        new KeyValuePair<string, string>("routing_number", arr[5]),
+        new KeyValuePair<string, string>("account_number", arr[6]),
          new KeyValuePair<string, string>("insert","true")// Company.Name)
     };
 
@@ -189,7 +194,7 @@ namespace MyWebServices
                         {
                             mw.dictionary_destination.Add(d.name, d);
 
-                            mw.comboBox_destination.Items.Add(d.ToString().ToUpper());
+                            mw.comboBox_destination.Items.Add(d.ToString());
                            
 
                             //d = null;
@@ -277,6 +282,92 @@ namespace MyWebServices
                         {
                             mw.dictionary_trucks.Add(t.name, t);
                             mw.listView_truck.Items.Add(t);
+                        }
+                    }
+                    mw.populateComboBoxes();
+                }
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show("Error. No data has been saved.");
+                Console.WriteLine(eee.ToString());
+            }
+        }
+        //POST data to customer.php 
+        //arr[0]=name
+        public static async void insertCustomerDB(MainWindow mw, string[] arr)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("customer", Encryption.encrypt("acbacustomeracba")),
+        new KeyValuePair<string, string>("name", arr[0]),
+         new KeyValuePair<string, string>("email", arr[1]),
+          new KeyValuePair<string, string>("phone", arr[2]),
+         new KeyValuePair<string, string>("routing_number", arr[3]),
+          new KeyValuePair<string, string>("account_number", arr[4]),
+         new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
+         new KeyValuePair<string, string>("insert","true")
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/customer.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Success. Customer has been added!");
+                    loadCustomerDB(mw);
+                    mw.populateComboBoxes();
+                }
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show("Error. No data has been saved.");
+                Console.WriteLine(eee.ToString());
+            }
+        }
+        public static async void loadCustomerDB(MainWindow mw)
+        {
+            try
+            {
+
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("customer", Encryption.encrypt("acbacustomeracba")),
+
+         new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/customer.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    JArray a = JArray.Parse(json);
+                    for (int i = 0; i < a.Count; ++i)
+                    {
+                        var item = (JObject)a[i];
+                        long id = Int64.Parse(item.GetValue("id").ToString());
+                        string name = item.GetValue("name").ToString();
+                        string email = item.GetValue("email").ToString();
+                        string phone = item.GetValue("phone").ToString();
+                        string rn = item.GetValue("routing_number").ToString();
+                        string an = item.GetValue("account_number").ToString();
+
+                        Customer c = new Customer(id, name,email,phone,rn,an);
+                        if (!mw.dictionary_customers.ContainsKey(c.name))
+                        {
+                            mw.dictionary_customers.Add(c.name, c);
+                            mw.listView_customer.Items.Add(c);
                         }
                     }
                     mw.populateComboBoxes();
