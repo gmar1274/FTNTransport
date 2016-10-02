@@ -8,7 +8,7 @@ public class Destination
     public string state { get; set; }
     public string zipcode { get; set; }
     public long id { get; set; }
-
+    public bool isTerminal { get; set; }
     public Destination(long id, string name, string addr, string city, string state, string zip)
     {
         this.name = name;
@@ -17,7 +17,9 @@ public class Destination
         this.state = state;
         this.id = id;
         this.zipcode = zip;
+        isTerminal = false;
     }
+
     public override string ToString() {
         return this.name;
     }

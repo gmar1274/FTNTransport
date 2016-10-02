@@ -126,7 +126,6 @@ namespace MyWebServices
             try
             {
                 var client = new HttpClient();
-
                 var pairs = new List<KeyValuePair<string, string>>
     {
                     new KeyValuePair<string, string>("destination", Encryption.encrypt("acbadestinationacba")),
@@ -138,6 +137,24 @@ namespace MyWebServices
         new KeyValuePair<string, string>("zipcode", arr[4]),
          new KeyValuePair<string, string>("insert","true")// Company.Name)
     };
+                bool isterminal = false;
+                if (arr.Length == 6 && arr[5].ToLower().Contains("terminal"))
+                {
+                    isterminal = true;
+                   pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("destination", Encryption.encrypt("acbadestinationacba")),
+        new KeyValuePair<string, string>("name", arr[0]),
+        new KeyValuePair<string, string>("address", arr[1]),
+         new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
+          new KeyValuePair<string, string>("city", arr[2]),
+        new KeyValuePair<string, string>("state",arr[3] ),
+        new KeyValuePair<string, string>("zipcode", arr[4]),
+         new KeyValuePair<string, string>("insert","true"),// Company.Name),
+         new KeyValuePair<string, string>("terminal","true")// Company.Name)
+    };
+                }
+                
 
                 var content = new FormUrlEncodedContent(pairs);
 
@@ -145,7 +162,12 @@ namespace MyWebServices
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Success. Destination has been added!");
+                    if (isterminal) {
+                        MessageBox.Show("Success. Terminal has been added!");
+                    }
+                    else {
+                        MessageBox.Show("Success. Destination has been added!");
+                    }
                     loadDestinationDB(mw);
                 }
             }
@@ -189,13 +211,18 @@ namespace MyWebServices
                         string city = item.GetValue("city").ToString();
                         string state = item.GetValue("state").ToString();
                         string zip = item.GetValue("zipcode").ToString();
+                        bool isterminal = item.GetValue("isterminal").ToString().Contains("1");//is true if one
                         Destination d = new Destination(id, name,addr,city,state,zip);
+                        d.isTerminal = isterminal;
                         if (!mw.dictionary_destination.ContainsKey(d.name))
                         {
                             mw.dictionary_destination.Add(d.name, d);
 
-                            mw.comboBox_destination.Items.Add(d.ToString());
-                           
+                            if (d.isTerminal) {
+                                mw.comboBox_terminal.Items.Add(d.ToString());
+                            } else {
+                                mw.comboBox_destination.Items.Add(d.ToString());
+                            }
 
                             //d = null;
                         }

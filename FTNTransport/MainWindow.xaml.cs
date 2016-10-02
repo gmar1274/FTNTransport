@@ -103,8 +103,11 @@ namespace FTNTransport
         {
             foreach (string id in d.Keys)
             {
-
-                if (!cb.Items.Contains(d[id].ToString()))
+                Destination dest = d[id];
+                if (dest.isTerminal && !this.comboBox_terminal.Items.Contains(dest.ToString())) {
+                    this.comboBox_terminal.Items.Add(dest.ToString());
+                }
+                 if (!dest.isTerminal && !cb.Items.Contains(d[id].ToString()))
                 {
                     cb.Items.Add(d[id].ToString());
                 }
@@ -205,6 +208,8 @@ namespace FTNTransport
             }
         }
 
+       
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
             // var firstStackPanelInTabControl = FindVisualChildren<TextBox>(tabControl).ElementAt(3);
@@ -291,13 +296,25 @@ namespace FTNTransport
         }
         private void button_create_destination_Click(object sender, RoutedEventArgs e)
         {
+            Button terminal = (Button)sender;
+            bool terminal_dest = false;
+            if (terminal.Name.ToLower().Contains("terminal")) {
+                terminal_dest = true;
+                //MessageBox.Show("AYY");
+            }
             bool good = true;
-            string name = this.textBox_companyname.Text;
+            string name = this.textBox_DestinationName.Text;
             string addr = this.textBox1_address.Text;
             string zip = this.textBox1_zipcode.Text;
             string city = this.textBox1_city.Text;
             string state = this.comboBox_state.Text;
-            if (name.Length==0){ good = false; setError(textBox_companyname); }
+            if (name.Length==0){ good = false; setError(textBox_DestinationName); }
+            if (terminal_dest && !good) return;
+            else if (terminal_dest && good) {
+                MyWebServices.WebService.insertDestinationDB(this, new string[] { name, addr, city, state, zip,"terminal" });
+                clearErrors();
+                return;
+            }
             if (addr.Length == 0) { good = false; setError(textBox1_address); }
             if (zip.Length == 0) { good = false;setError(textBox1_zipcode); }
             if (city.Length == 0) { good = false;setError(textBox1_city); }
@@ -397,6 +414,17 @@ namespace FTNTransport
             {
                 this.checkBox_repeat_order.IsEnabled = true;
             }
+        }
+
+        private void checkBox_repeat_order_Checked(object sender, RoutedEventArgs e)
+        {
+            ///fill in last order of customer
+            ///soo do a query to find the last order shipment
+        }
+
+        private void button_createOrder_Click(object sender, RoutedEventArgs e)
+        {
+            ///insert order to DB
         }
     }
 }
