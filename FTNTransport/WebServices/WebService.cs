@@ -78,7 +78,7 @@ namespace MyWebServices
             catch (Exception eee)
             {
 
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -116,11 +116,11 @@ namespace MyWebServices
             catch (Exception eee)
             {
 
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
-        //POST data to driver.php 
+        //POST data to destination.php 
         public static async void insertDestinationDB(MainWindow mw, string[] arr)
         {
             try
@@ -174,7 +174,7 @@ namespace MyWebServices
             catch (Exception eee)
             {
 
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -233,7 +233,7 @@ namespace MyWebServices
             catch (Exception eee)
             {
 
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -269,7 +269,7 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -316,7 +316,7 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -353,7 +353,7 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
         }
@@ -402,9 +402,65 @@ namespace MyWebServices
             }
             catch (Exception eee)
             {
-                MessageBox.Show("Error. No data has been saved.");
+               Error();
                 Console.WriteLine(eee.ToString());
             }
+        }
+        //POST data to order.php 
+        public static async void insertOrderDB(MainWindow mw, string[] arr)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("order", Encryption.encrypt("acbaorderacba")),
+         new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
+         //string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd };
+        new KeyValuePair<string, string>("driver_id", mw.dictionary_drivers[ arr[0]].id.ToString()),//get the id of the driver
+        new KeyValuePair<string, string>("start_dest_id",mw.dictionary_destination[arr[1]].id.ToString()),//start pos
+        new KeyValuePair<string, string>("end_dest_id",mw.dictionary_destination[arr[2]].id.ToString()),
+        new KeyValuePair<string, string>("driver_commission",arr[3] ),
+        new KeyValuePair<string, string>("truck_id", mw.dictionary_trucks[arr[4]].id.ToString()),
+        new KeyValuePair<string, string>("status",arr[5] ),
+        new KeyValuePair<string, string>("customer_id", mw.dictionary_customers[arr[6]].id.ToString()),
+        new KeyValuePair<string, string>("container", arr[7]),
+
+new KeyValuePair<string, string>("size",arr[8] ),
+        new KeyValuePair<string, string>("terminal_dest_id",mw.dictionary_destination[arr[9]].id.ToString()),
+        new KeyValuePair<string, string>("lfd",arr[10]),
+        new KeyValuePair<string, string>("created",DateTime.Now.ToString()),
+
+         new KeyValuePair<string, string>("insert","true")// Company.Name)
+    };
+                var content = new FormUrlEncodedContent(pairs);
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/order.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+                   
+                        MessageBox.Show("Success. Order has been added!");
+                         mw.orderConfirmation();
+                   //loadDestinationDB(mw);
+                }
+            }
+            catch (Exception eee)
+            {
+
+                Error();
+                Console.WriteLine(eee.ToString());
+            }
+        }
+        /// <summary>
+        /// Just display an error. Later will implement logic checking like highlight the error..
+        /// </summary>
+        private static void Error()
+        {
+            MessageBox.Show(
+                    "Error. No data has been saved.",
+                    "ACBA Dispatch Program",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
         }
     }///end namespace
 }//end class

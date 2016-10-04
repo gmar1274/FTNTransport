@@ -209,7 +209,11 @@ namespace FTNTransport
         }
 
        
-
+        /// <summary>
+        /// DRIVER SETTINGS INSERT TAB
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Click(object sender, RoutedEventArgs e)
         {
             // var firstStackPanelInTabControl = FindVisualChildren<TextBox>(tabControl).ElementAt(3);
@@ -346,11 +350,15 @@ namespace FTNTransport
             clearErrors();
             MyWebServices.WebService.loadTruckDB(this);
         }
-
+        /// <summary>
+        /// Just check if the string is a numeric
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         private bool isNumeric(string text)
         {
             try {
-                Int64.Parse(text);
+                double.Parse(text);
                 return true;
             } catch (Exception e) {
                 return false;
@@ -407,6 +415,7 @@ namespace FTNTransport
 
         private void comboBox_customer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (this.comboBox_customer.SelectedItem == null) return;
             string cust_name = this.comboBox_customer.SelectedItem.ToString();
             ///fetch a DB call for Last recent ORDER if any and fill out the fields
             ///
@@ -421,10 +430,78 @@ namespace FTNTransport
             ///fill in last order of customer
             ///soo do a query to find the last order shipment
         }
-
+        /// <summary>
+        /// This method is the action handler for creating a new order.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_createOrder_Click(object sender, RoutedEventArgs e)
         {
-            ///insert order to DB
+          
+            try
+            {
+
+
+                string cust = this.comboBox_customer.SelectedValue.ToString();
+                string container = this.comboBox_container.Text;///might have to fix this
+                string terminal = this.comboBox_terminal.SelectedValue.ToString();//start dest
+                string size = this.comboBox_size.SelectedValue.ToString();
+                string lfd = this.datepicker_lfd.SelectedDate.Value.ToShortDateString();
+                string end_dest = this.comboBox_destination.SelectedValue.ToString();
+                string driver = this.comboBox_driver.SelectedValue.ToString();
+                string truck = this.comboBox_truck.SelectedValue.ToString();
+                string driver_comm = this.textBox_driverCommission.Text.ToString();
+
+                string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd };
+                foreach (string s in arr)//absolutely no logic checking...
+                {
+                    if (s == null || s.Length == 0)
+                    {
+
+                        orderError();
+                        return;
+                    }
+                }
+                MyWebServices.WebService.insertOrderDB(this, arr);
+            }
+            catch (Exception ee)
+            {
+                orderError();
+                Console.WriteLine(ee);
+            }
+
+        }
+        public void orderConfirmation() {
+            foreach (ComboBox cb in FindVisualChildren<ComboBox>(tabControl))///msy cause problems. May check all textboxes not in tab control selection 3
+            {
+               
+                cb.SelectedIndex = -1;
+                cb.Text = "";
+            }
+            }
+        /// <summary>
+        /// Just display an error. Later will implement logic checking like highlight the error..
+        /// </summary>
+        private void orderError()
+        {
+            MessageBox.Show(
+                    "Error. Recheck your fields.\nNo data has been saved.",
+                    "ACBA Dispatch Program",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+        }
+
+        private void textBox_driverCommission_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!isNumeric(this.textBox_driverCommission.Text))
+            {
+                MessageBox.Show(
+                "Error. Numeric value for [driver commsission] only.",
+                "ACBA Dispatch Program",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+                this.textBox_driverCommission.Text = "";
+            }
         }
     }
 }
