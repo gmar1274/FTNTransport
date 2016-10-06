@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using FTNTransport;
 using System.Windows;
+using System.Globalization;
 
 namespace MyWebServices
 {
@@ -74,6 +75,7 @@ namespace MyWebServices
                     // Console.WriteLine(JObject.Parse(json));
                 }
                 mw.populateComboBoxes();
+                mw.drivers_loaded = true;
             }
             catch (Exception eee)
             {
@@ -120,6 +122,9 @@ namespace MyWebServices
                 Console.WriteLine(eee.ToString());
             }
         }
+
+       
+
         //POST data to destination.php 
         public static async void insertDestinationDB(MainWindow mw, string[] arr)
         {
@@ -228,7 +233,8 @@ namespace MyWebServices
                         }
                     }
                 }
-               // mw.populateDestComboBoxes();
+                // mw.populateDestComboBoxes();
+                mw.destinations_loaded = true;
             }
             catch (Exception eee)
             {
@@ -312,6 +318,7 @@ namespace MyWebServices
                         }
                     }
                     mw.populateComboBoxes();
+                    mw.trucks_loaded = true;
                 }
             }
             catch (Exception eee)
@@ -398,6 +405,7 @@ namespace MyWebServices
                         }
                     }
                     mw.populateComboBoxes();
+                    mw.customers_loaded = true;
                 }
             }
             catch (Exception eee)
@@ -449,6 +457,83 @@ new KeyValuePair<string, string>("size",arr[8] ),
 
                 Error();
                 Console.WriteLine(eee.ToString());
+            }
+        }
+        /// <summary>
+        /// SELECT * FROM `order` O, `driver` D, `destination` DD, `destination` DDD, `truck` T WHERE O.driver_id=D.id AND O.start_destination_id=DD.id AND O.end_destination_id=DDD.id AND O.truck_id=T.id 
+        /// </summary>
+        /// <param name="mw"></param>
+        public static async void loadOrderDB(MainWindow mw)
+        {
+            try
+            {
+
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("order", Encryption.encrypt("acbaorderacba")),
+
+         new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/order.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string json = await response.Content.ReadAsStringAsync();
+                   // MessageBox.Show(json);
+                    JArray a = JArray.Parse(json);
+                    for (int i = 0; i < a.Count; ++i)
+                    {
+                        var item = (JObject)a[i];
+                        long order_number = long.Parse(item.GetValue("order_number").ToString());
+                        long driver_id = long.Parse(item.GetValue("driver_id").ToString());
+                        long start_dest_id = long.Parse(item.GetValue("start_destination_id").ToString());
+                        long end_dest_id = long.Parse(item.GetValue("end_destination_id").ToString());
+                        
+                        DateTime oc = DateTime.Parse(item.GetValue("order_created_datetime").ToString());//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        string ofd = item.GetValue("out_for_delivery_datetime").ToString();
+                        string od = item.GetValue("delivery_confirmation_datetime").ToString();
+                        DateTime? shipped = null;
+                        if (ofd != null && ofd.Length>0)
+                        {
+                            shipped = DateTime.Parse(ofd);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        }
+                        DateTime? delivered = null;
+                        if (od != null && od.Length>0) {
+                            delivered = DateTime.Parse(od);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        }
+                        double comm = double.Parse(item.GetValue("driver_commission").ToString());
+                        long truck_id = long.Parse(item.GetValue("truck_id").ToString());
+                        string status = item.GetValue("status").ToString();
+                        long cust_id = long.Parse(item.GetValue("customer_id").ToString());
+                        string container = item.GetValue("container").ToString();
+                        int size = int.Parse(item.GetValue("size").ToString());
+                        int terminal = int.Parse(item.GetValue("terminal").ToString());
+                        DateTime lfd = DateTime.Parse(item.GetValue("lfd").ToString());//,"yyyy-MM-dd HH:mm:ss",CultureInfo.CreateSpecificCulture("en-US"));
+
+                       
+
+                        Order o = new Order(mw,order_number,driver_id,truck_id,start_dest_id,end_dest_id,cust_id,oc,shipped,delivered
+                            ,lfd,status,terminal,container,size,comm);
+                        //MessageBox.Show(o.container);
+                        if (!mw.dictionary_orders.ContainsKey(o.order_number))
+                        {
+                            mw.dictionary_orders.Add(o.order_number, o);
+                            mw.listView_order.Items.Add(o);
+                        }
+                    }
+                    
+                }
+            }
+            catch (Exception eee)
+            {
+                Console.WriteLine("HEREEEEEEEEE:: "+eee.ToString());
+                Error();
             }
         }
         /// <summary>

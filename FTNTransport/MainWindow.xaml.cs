@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using MyEncryption;
 using MyStates;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FTNTransport
 {
@@ -15,9 +16,14 @@ namespace FTNTransport
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+        private DispatcherTimer dispatcherTimer;
+        public bool customers_loaded;
+        public bool trucks_loaded;
+        public bool drivers_loaded;
+        public bool destinations_loaded;
+
         public Dictionary<string, Driver> dictionary_drivers { set; get; }
-        public Dictionary<string, Order> dictionary_orders { set; get; }
+        public Dictionary<long, Order> dictionary_orders { set; get; }
         public Dictionary<string, Customer> dictionary_customers { set; get; }
         public Dictionary<string, Destination> dictionary_destination { set; get; }
         public Dictionary<string, Truck> dictionary_trucks { set; get; }
@@ -132,14 +138,32 @@ namespace FTNTransport
             MyWebServices.WebService.loadDestinationDB(this); // load destinations
             MyWebServices.WebService.loadTruckDB(this);//load trucks
             MyWebServices.WebService.loadCustomerDB(this);//load customers 
-
-            //load orders
+            //System.Threading.Thread.Sleep(5000);
+             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
         }
-
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+           if(customers_loaded && trucks_loaded && drivers_loaded && destinations_loaded)
+            {
+                MyWebServices.WebService.loadOrderDB(this);//load orders
+                dispatcherTimer.Stop();
+             }
+            // code goes here
+        }
+        /// <summary>
+        /// Initialize all fields.
+        /// </summary>
         private void intit()
         {
+            trucks_loaded = false;
+            destinations_loaded = false;
+            customers_loaded = false;
+            drivers_loaded = false;
             dictionary_drivers = new Dictionary<string, Driver>();
-            dictionary_orders = new Dictionary<string, Order>();
+            dictionary_orders = new Dictionary<long, Order>();
             dictionary_customers = new Dictionary<string, Customer>();
             dictionary_destination = new Dictionary<string, Destination>();
 

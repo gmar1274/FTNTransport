@@ -46,19 +46,25 @@
             </TabItem>
             <TabItem Header="View Orders" FontWeight="Normal" Height="20" VerticalAlignment="Top" IsSelected="True" >
                 <Grid  Background="#FFE5E5E5">
-                    <ListView x:Name="listView_order" Margin="0,90,0,0" FontSize="13.333">
+                    <ListView x:Name="listView_order" Margin="0,100,0,0" FontSize="13.333">
                         <ListView.View>
                             <GridView ColumnHeaderStringFormat="" AllowsColumnReorder="False">
-                                <GridView.ColumnHeaderContextMenu>
-                                    <ContextMenu MinHeight="10" MinWidth="10" FontSize="10" Foreground="Black" FontFamily="Cambria Math"/>
-                                </GridView.ColumnHeaderContextMenu>
-                                <GridViewColumn Header="Order ID" Width="80"/>
-                                <GridViewColumn Header="Date Created" Width="80"/>
-                                <GridViewColumn Header="Out For Delivery" Width="100"/>
-                                <GridViewColumn Header="Driver" Width="50"/>
-                                <GridViewColumn Header="Status" Width="50"/>
-                                <GridViewColumn Header="Truck" Width="50"/>
-                                <GridViewColumn Header="Customer" Width="80"/>
+                                
+                                <GridViewColumn Header="Order Number" Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
+                                <GridViewColumn Header="Date Created"  Width="Auto" DisplayMemberBinding="{Binding order_created}"/>
+                                <GridViewColumn Header="Terminal"  Width="Auto" DisplayMemberBinding="{Binding terminal}"/>
+                                <GridViewColumn Header="Truck"  Width="Auto" DisplayMemberBinding="{Binding truck_name}"/>
+                                <GridViewColumn Header="Driver"  Width="Auto" DisplayMemberBinding="{Binding driver_name}"/>
+                                <GridViewColumn Header="Driver Commission"  Width="Auto" DisplayMemberBinding="{Binding driver_commission}"/>
+                                <GridViewColumn Header="Date Picked Up/Shipped"  Width="Auto" DisplayMemberBinding="{Binding out_for_delivery}"/>
+                                
+                                <GridViewColumn Header="Status"  Width="Auto" DisplayMemberBinding="{Binding status}"/>
+                                <GridViewColumn Header="Customer"  Width="Auto" DisplayMemberBinding="{Binding customer_name}"/>
+                                <GridViewColumn Header="Date Delivered"  Width="Auto" DisplayMemberBinding="{Binding delivery_confirmation}"/>
+                                <GridViewColumn Header="Last Free Day (LFD)"  Width="Auto" DisplayMemberBinding="{Binding lfd}"/>
+                                <GridViewColumn Header="Container"  Width="Auto" DisplayMemberBinding="{Binding container}"/>
+                                <GridViewColumn Header="Size"  Width="Auto" DisplayMemberBinding="{Binding size}"/>
+
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -122,7 +128,7 @@
                         <Grid Margin="0,0,0,-56">
 
 
-                            <ListView x:Name="listView_driver" FontSize="12" Margin="-10,55,0,-8"   >
+                            <ListView x:Name="listView_driver" FontSize="13" Margin="-10,55,0,-8"   >
 
                                 <ListView.View>
                                     <GridView AllowsColumnReorder="False">
