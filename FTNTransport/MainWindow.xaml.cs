@@ -8,6 +8,7 @@ using MyEncryption;
 using MyStates;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Globalization;
 
 namespace FTNTransport
 {
@@ -36,7 +37,7 @@ namespace FTNTransport
             populateStates();
            
         }
-
+       
         private async void populateStates()
         {
             foreach (State.CODES sc in Enum.GetValues(typeof(State.CODES))) {
@@ -475,8 +476,11 @@ namespace FTNTransport
                 string driver = this.comboBox_driver.SelectedValue.ToString();
                 string truck = this.comboBox_truck.SelectedValue.ToString();
                 string driver_comm = this.textBox_driverCommission.Text.ToString();
-
-                string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd };
+                string amount = this.textBox_order_amount.Text;
+                amount = amount.Replace("$","");
+                amount = amount.Replace(",","");
+                
+                string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd,amount };
                 foreach (string s in arr)//absolutely no logic checking...
                 {
                     if (s == null || s.Length == 0)
@@ -502,7 +506,12 @@ namespace FTNTransport
                 cb.SelectedIndex = -1;
                 cb.Text = "";
             }
+            foreach (TextBox tb in FindVisualChildren<TextBox>(tabControl))///msy cause problems. May check all textboxes not in tab control selection 3
+            {
+                tb.Text = "";
             }
+
+        }
         /// <summary>
         /// Just display an error. Later will implement logic checking like highlight the error..
         /// </summary>
@@ -517,15 +526,75 @@ namespace FTNTransport
 
         private void textBox_driverCommission_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!isNumeric(this.textBox_driverCommission.Text))
+            TextBox t = ((TextBox)sender);
+            string comm = t.Text;
+            if (comm.Length > 0 && !isNumeric(comm))
             {
-                MessageBox.Show(
+                /*MessageBox.Show(
                 "Error. Numeric value for [driver commsission] only.",
                 "ACBA Dispatch Program",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
                 this.textBox_driverCommission.Text = "";
+                */
             }
+            else if(isNumeric(comm) && double.Parse(comm)/100>1){
+                t.Text = "";
+            }
+        }
+        /// <summary>
+        /// Attempts to dynamically format string to currency
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBox_order_amount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+                var amount = this.textBox_order_amount;
+            try {
+                string a = amount.Text;
+                if (a.Length > 1 && a.Contains("$"))
+                {
+                     //MessageBox.Show("b4: "+a);
+                    a = a.Substring(1,a.Length - 1);
+                    a=a.Replace(",","");
+                 
+                }
+                Double value = Double.Parse(a);
+                if (a.Contains(".")) {
+                    amount.Text = "$" + a;
+                    amount.SelectionStart = amount.Text.Length;
+                    return;
+                }
+                else {
+                    amount.Text = value.ToString("$#,##0.##", new CultureInfo("en-US"));
+                }
+                if (a.Contains("."))
+                {
+                    int spot = a.IndexOf(".") + 1;//correct space not including the # of commas
+                    int commas = getCommas(amount.Text);
+                    //amount.Text = value.ToString("C", new CultureInfo("en-US"));
+                    amount.SelectionStart = spot + commas;
+                    // MessageBox.Show(a+" commas: "+commas);
+                }
+                else {
+                    amount.SelectionStart = amount.Text.Length;
+                }
+            } catch (Exception ee)
+
+            {
+                Console.WriteLine(ee.ToString());
+                amount.Text = "";
+            }
+        }
+
+        private int getCommas(string text)
+        {
+            int count = 0;
+            foreach (char c in text)
+            {
+                if (c == ',') ++count;
+            }
+            return count;
         }
     }
 }

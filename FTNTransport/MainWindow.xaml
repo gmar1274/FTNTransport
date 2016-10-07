@@ -42,6 +42,8 @@
                     <Label x:Name="label_Copy3" Content="Driver Commission:" HorizontalAlignment="Left" Margin="319,172,0,0" VerticalAlignment="Top" Width="152" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
                     <TextBox x:Name="textBox_driverCommission" HorizontalAlignment="Left" Height="23" Margin="469,172,0,0" VerticalAlignment="Top" Width="63" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1" TextChanged="textBox_driverCommission_TextChanged"/>
                     <Label x:Name="label_Copy7" Content="%" HorizontalAlignment="Left" Margin="536,172,0,0" VerticalAlignment="Top" Width="30" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" FontWeight="Bold" />
+                    <Label x:Name="label_Copy8" Content="Order Amount:" HorizontalAlignment="Left" Margin="319,208,0,0" VerticalAlignment="Top" Width="112" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+                    <TextBox x:Name="textBox_order_amount" HorizontalAlignment="Left" Height="23" Margin="433,208,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1"  TextAlignment="Right" TextChanged="textBox_order_amount_TextChanged"   />
                 </Grid>
             </TabItem>
             <TabItem Header="View Orders" FontWeight="Normal" Height="20" VerticalAlignment="Top" IsSelected="True" >
@@ -49,7 +51,7 @@
                     <ListView x:Name="listView_order" Margin="0,100,0,0" FontSize="13.333">
                         <ListView.View>
                             <GridView ColumnHeaderStringFormat="" AllowsColumnReorder="False">
-                                
+
                                 <GridViewColumn Header="Order Number" Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
                                 <GridViewColumn Header="Date Created"  Width="Auto" DisplayMemberBinding="{Binding order_created}"/>
                                 <GridViewColumn Header="Terminal"  Width="Auto" DisplayMemberBinding="{Binding terminal}"/>
@@ -57,13 +59,15 @@
                                 <GridViewColumn Header="Driver"  Width="Auto" DisplayMemberBinding="{Binding driver_name}"/>
                                 <GridViewColumn Header="Driver Commission"  Width="Auto" DisplayMemberBinding="{Binding driver_commission}"/>
                                 <GridViewColumn Header="Date Picked Up/Shipped"  Width="Auto" DisplayMemberBinding="{Binding out_for_delivery}"/>
-                                
+
                                 <GridViewColumn Header="Status"  Width="Auto" DisplayMemberBinding="{Binding status}"/>
                                 <GridViewColumn Header="Customer"  Width="Auto" DisplayMemberBinding="{Binding customer_name}"/>
                                 <GridViewColumn Header="Date Delivered"  Width="Auto" DisplayMemberBinding="{Binding delivery_confirmation}"/>
                                 <GridViewColumn Header="Last Free Day (LFD)"  Width="Auto" DisplayMemberBinding="{Binding lfd}"/>
                                 <GridViewColumn Header="Container"  Width="Auto" DisplayMemberBinding="{Binding container}"/>
                                 <GridViewColumn Header="Size"  Width="Auto" DisplayMemberBinding="{Binding size}"/>
+
+                                <GridViewColumn Header="Order Amount"  Width="Auto" DisplayMemberBinding="{Binding formatted_amount}"/>
 
                             </GridView>
                         </ListView.View>
@@ -203,6 +207,8 @@
                 </Grid>
             </TabItem>
         </TabControl>
+
+
 
     </DockPanel>
 

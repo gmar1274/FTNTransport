@@ -439,7 +439,8 @@ new KeyValuePair<string, string>("size",arr[8] ),
         new KeyValuePair<string, string>("lfd",arr[10]),
         new KeyValuePair<string, string>("created",DateTime.Now.ToString()),
 
-         new KeyValuePair<string, string>("insert","true")// Company.Name)
+         new KeyValuePair<string, string>("amount",arr[11]),
+          new KeyValuePair<string, string>("insert","true")
     };
                 var content = new FormUrlEncodedContent(pairs);
                 HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/order.php", content);
@@ -515,11 +516,11 @@ new KeyValuePair<string, string>("size",arr[8] ),
                         int size = int.Parse(item.GetValue("size").ToString());
                         int terminal = int.Parse(item.GetValue("terminal").ToString());
                         DateTime lfd = DateTime.Parse(item.GetValue("lfd").ToString());//,"yyyy-MM-dd HH:mm:ss",CultureInfo.CreateSpecificCulture("en-US"));
-
+                        decimal amount = decimal.Parse(item.GetValue("amount").ToString());
                        
 
                         Order o = new Order(mw,order_number,driver_id,truck_id,start_dest_id,end_dest_id,cust_id,oc,shipped,delivered
-                            ,lfd,status,terminal,container,size,comm);
+                            ,lfd,status,terminal,container,size,comm,amount);
                         //MessageBox.Show(o.container);
                         if (!mw.dictionary_orders.ContainsKey(o.order_number))
                         {
@@ -527,8 +528,9 @@ new KeyValuePair<string, string>("size",arr[8] ),
                             mw.listView_order.Items.Add(o);
                         }
                     }
-                    
-                }
+                    loadOrderDB(mw);
+                }///////response from server was good
+
             }
             catch (Exception eee)
             {

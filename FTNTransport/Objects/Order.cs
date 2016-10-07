@@ -1,5 +1,6 @@
 ﻿using FTNTransport;
 using System;
+using System.Globalization;
 
 public class Order
 {
@@ -17,10 +18,12 @@ public class Order
     public string terminal { get; set; }
     public string container { get; set; }
     public int size { get; set; }
+    public decimal amount { get; set; }
+    public string formatted_amount { get; set; }
     public double driver_commission { get; set; }
 
     public Order(MainWindow mw,long on,long driver,long truck,long sd,long ed, long cust,DateTime oc, DateTime? shipped, DateTime? delivered
-        ,DateTime lfd, string status,int terminal,string con,int size, double comm)
+        ,DateTime lfd, string status,int terminal,string con,int size, double comm,decimal amount)
 	{
         this.order_number=on;
         this.driver_name = getDriver(mw,driver);
@@ -37,8 +40,9 @@ public class Order
         this.size = size;
         this.driver_commission = comm;
         this.terminal = getDestination(mw,terminal);
-
-	}
+        this.amount = amount;
+        formatted_amount = amount.ToString("C", new CultureInfo("en-US"));
+    }
 
    
 
