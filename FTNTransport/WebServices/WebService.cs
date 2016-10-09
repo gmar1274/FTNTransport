@@ -508,12 +508,12 @@ new KeyValuePair<string, string>("size",arr[8] ),
                         if (od != null && od.Length>0) {
                             delivered = DateTime.Parse(od);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
                         }
-                        double comm = double.Parse(item.GetValue("driver_commission").ToString());
+                        decimal comm = decimal.Parse(item.GetValue("driver_commission").ToString());
                         long truck_id = long.Parse(item.GetValue("truck_id").ToString());
                         string status = item.GetValue("status").ToString();
                         long cust_id = long.Parse(item.GetValue("customer_id").ToString());
                         string container = item.GetValue("container").ToString();
-                        int size = int.Parse(item.GetValue("size").ToString());
+                        string size = item.GetValue("size").ToString();
                         int terminal = int.Parse(item.GetValue("terminal").ToString());
                         DateTime lfd = DateTime.Parse(item.GetValue("lfd").ToString());//,"yyyy-MM-dd HH:mm:ss",CultureInfo.CreateSpecificCulture("en-US"));
                         decimal amount = decimal.Parse(item.GetValue("amount").ToString());

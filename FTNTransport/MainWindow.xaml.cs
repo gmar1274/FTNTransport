@@ -169,12 +169,16 @@ namespace FTNTransport
             dictionary_destination = new Dictionary<string, Destination>();
 
             dictionary_trucks = new Dictionary<string, Truck>();
-            int[] arr = { 20, 40, 45 };
+            string[] arr = { "20ST", "40ST", "40HC", "45HC" };
             for (int i = 0; i < arr.Length; ++i)
             {
                 this.comboBox_size.Items.Add(arr[i]);
             }
-        }
+            string[] cargo = { "Loaded","Empty"};
+            foreach (string s in cargo) {
+                this.comboBox_cargo.Items.Add(s);
+            }
+            }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -475,9 +479,9 @@ namespace FTNTransport
                 string end_dest = this.comboBox_destination.SelectedValue.ToString();
                 string driver = this.comboBox_driver.SelectedValue.ToString();
                 string truck = this.comboBox_truck.SelectedValue.ToString();
-                string driver_comm = this.textBox_driverCommission.Text.ToString();
-                string amount = this.textBox_order_amount.Text;
-                amount = amount.Replace("$","");
+                string driver_comm = this.textBox_driverCommission_dollars.Text.ToString()+"."+this.textBox_driverCommission_cents.Text;
+                string amount = this.textBox_order_dollars.Text + "." + this.textBox_order_cents.Text;
+               // amount = amount.Replace("$","");
                 amount = amount.Replace(",","");
                 
                 string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd,amount };
@@ -524,77 +528,92 @@ namespace FTNTransport
                     MessageBoxImage.Error);
         }
 
+       
+
+        private void textBox_order_amount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var dollars = this.textBox_order_dollars;
+            
+            long amount = 0;
+            try
+            {
+                amount = long.Parse(dollars.Text.Replace(",",""));
+                dollars.Text = amount.ToString("#,###", new CultureInfo("en-US"));
+                dollars.SelectionStart = dollars.Text.Length;
+
+            }
+            catch (Exception ee)
+
+            {
+                Console.WriteLine(ee.ToString());
+                dollars.Text = "";
+            }
+        }
+
+        private void textBox_order_cents_TextChanged(object sender, TextChangedEventArgs e)
+        {
+           var cents = this.textBox_order_cents;
+            if (cents.Text.Length >2) {
+                cents.Text = cents.Text.Substring(0,2);
+                cents.SelectionStart = 2;
+                return;
+            }
+            int amount = 0;
+            try
+            {
+                amount = int.Parse(cents.Text);
+                cents.Text = amount.ToString("##", new CultureInfo("en-US"));
+
+            }
+            catch (Exception ee)
+
+            {
+                Console.WriteLine(ee.ToString());
+                cents.Text = "";
+            }
+        }
+        //for the driver commision dollar amount
         private void textBox_driverCommission_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox t = ((TextBox)sender);
-            string comm = t.Text;
-            if (comm.Length > 0 && !isNumeric(comm))
+            if (t.Name.ToLower().Contains("dollars")) {
+                string comm = t.Text.Replace(",", "");
+                try
+                {
+                   int amount = int.Parse(comm);
+                    t.Text = amount.ToString("#,###", new CultureInfo("en-US"));
+                    t.SelectionStart = t.Text.Length;
+                }
+                catch (Exception ee)
+                {
+                    Console.Write(ee.ToString());
+                    t.Text = "";
+                }
+            }else if (t.Name.ToLower().Contains("cents"))
             {
-                /*MessageBox.Show(
-                "Error. Numeric value for [driver commsission] only.",
-                "ACBA Dispatch Program",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-                this.textBox_driverCommission.Text = "";
-                */
-            }
-            else if(isNumeric(comm) && double.Parse(comm)/100>1){
-                t.Text = "";
+                string comm = t.Text;
+                if (comm.Length > 2)
+                {
+                    t.Text = comm.Substring(0,2);
+                }
+                try
+                {
+                    int amount = int.Parse(comm);
+                    t.SelectionStart = 2;
+                    
+                }
+                catch (Exception ee)
+                {
+                    Console.Write(ee.ToString());
+                }
             }
         }
+
         /// <summary>
         /// Attempts to dynamically format string to currency
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textBox_order_amount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-                var amount = this.textBox_order_amount;
-            try {
-                string a = amount.Text;
-                if (a.Length > 1 && a.Contains("$"))
-                {
-                     //MessageBox.Show("b4: "+a);
-                    a = a.Substring(1,a.Length - 1);
-                    a=a.Replace(",","");
-                 
-                }
-                Double value = Double.Parse(a);
-                if (a.Contains(".")) {
-                    amount.Text = "$" + a;
-                    amount.SelectionStart = amount.Text.Length;
-                    return;
-                }
-                else {
-                    amount.Text = value.ToString("$#,##0.##", new CultureInfo("en-US"));
-                }
-                if (a.Contains("."))
-                {
-                    int spot = a.IndexOf(".") + 1;//correct space not including the # of commas
-                    int commas = getCommas(amount.Text);
-                    //amount.Text = value.ToString("C", new CultureInfo("en-US"));
-                    amount.SelectionStart = spot + commas;
-                    // MessageBox.Show(a+" commas: "+commas);
-                }
-                else {
-                    amount.SelectionStart = amount.Text.Length;
-                }
-            } catch (Exception ee)
 
-            {
-                Console.WriteLine(ee.ToString());
-                amount.Text = "";
-            }
-        }
-
-        private int getCommas(string text)
-        {
-            int count = 0;
-            foreach (char c in text)
-            {
-                if (c == ',') ++count;
-            }
-            return count;
-        }
     }
 }

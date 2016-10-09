@@ -17,13 +17,14 @@ public class Order
     public string status { get; set; }
     public string terminal { get; set; }
     public string container { get; set; }
-    public int size { get; set; }
+    public string size { get; set; }
     public decimal amount { get; set; }
     public string formatted_amount { get; set; }
-    public double driver_commission { get; set; }
+    public decimal driver_commission { get; set; }
+    public string formatted_commission { get; set; }
 
     public Order(MainWindow mw,long on,long driver,long truck,long sd,long ed, long cust,DateTime oc, DateTime? shipped, DateTime? delivered
-        ,DateTime lfd, string status,int terminal,string con,int size, double comm,decimal amount)
+        ,DateTime lfd, string status,int terminal,string con,string size, decimal comm,decimal amount)
 	{
         this.order_number=on;
         this.driver_name = getDriver(mw,driver);
@@ -42,6 +43,7 @@ public class Order
         this.terminal = getDestination(mw,terminal);
         this.amount = amount;
         formatted_amount = amount.ToString("C", new CultureInfo("en-US"));
+        this.formatted_commission=comm.ToString("C", new CultureInfo("en-US")); 
     }
 
    
