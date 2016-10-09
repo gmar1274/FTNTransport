@@ -50,8 +50,10 @@ namespace MyWebServices
                         string phone = item.GetValue("phone").ToString();
                         string rn = item.GetValue("routing_number").ToString();
                         string an = item.GetValue("account_number").ToString();
+                        string bank = item.GetValue("bank").ToString();
 
-                        Driver d = new Driver(id, fname, mname, lname, email, phone,rn,an);
+
+                        Driver d = new Driver(id, fname, mname, lname, email, phone,rn,an,bank);
                         if (!mw.dictionary_drivers.ContainsKey(d.name))
                         {
                             mw.dictionary_drivers.Add(d.name, d);
@@ -102,7 +104,10 @@ namespace MyWebServices
         new KeyValuePair<string, string>("phone", arr[4]),
         new KeyValuePair<string, string>("routing_number", arr[5]),
         new KeyValuePair<string, string>("account_number", arr[6]),
-         new KeyValuePair<string, string>("insert","true")// Company.Name)
+        new KeyValuePair<string, string>("bank", arr[7]),
+
+                    new KeyValuePair<string, string>("insert","true")// Company.Name)
+
     };
 
                 var content = new FormUrlEncodedContent(pairs);
@@ -257,7 +262,7 @@ namespace MyWebServices
         new KeyValuePair<string, string>("name", arr[0]),
         new KeyValuePair<string, string>("license_plate", arr[1]),
          new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
-          new KeyValuePair<string, string>("cargo", arr[2]),
+          new KeyValuePair<string, string>("vin", arr[2]),
           new KeyValuePair<string, string>("mpg", arr[3]),
          new KeyValuePair<string, string>("insert","true")
     };
@@ -308,9 +313,9 @@ namespace MyWebServices
                         long id = Int64.Parse(item.GetValue("id").ToString());
                         string name = item.GetValue("name").ToString();
                         string lp = item.GetValue("license_plate").ToString();
-                        string cargo = item.GetValue("cargo_capacity").ToString();
+                        string vin = item.GetValue("vin").ToString();
                         int mpg = Int32.Parse(item.GetValue("mpg").ToString());
-                        Truck t = new Truck(id, name, lp, cargo,mpg);
+                        Truck t = new Truck(id, name, lp, vin,mpg);
                         if (!mw.dictionary_trucks.ContainsKey(t.name))
                         {
                             mw.dictionary_trucks.Add(t.name, t);

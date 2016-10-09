@@ -11,12 +11,12 @@ public class Driver
     public string routing_number { get; set; }
     public string account_number { get; set; }
     public string name { get { return getNameString(); }  }
+    public string bank { get; set; }
 
-
-	public Driver()
+    public Driver()
 	{
 	}
-    public Driver(long id,string fname,string mname,string lname,string email,string phone,string rn, string an) {
+    public Driver(long id,string fname,string mname,string lname,string email,string phone,string rn, string an,string bank) {
         this.id = id;
         this.fname = fname;
         this.mname = mname;
@@ -25,6 +25,7 @@ public class Driver
         this.phone = phone;
         this.routing_number = rn;
         this.account_number = an;
+        this.bank = bank;
     }
     private string getNameString()
     {

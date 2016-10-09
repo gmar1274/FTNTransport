@@ -271,7 +271,7 @@ namespace FTNTransport
             if (good)
             {
 
-                MyWebServices.WebService.insertDriverDB(this,new string[] { textBox_fname.Text, textBox_mname.Text, textBox_lname.Text, textBox_email.Text, textBox_phone.Text });
+                MyWebServices.WebService.insertDriverDB(this,new string[] { textBox_fname.Text, textBox_mname.Text, textBox_lname.Text, textBox_email.Text, textBox_phone.Text,this.textBox_bankname.Text });
                 ///will update
                 //send db
                 clearErrors();
@@ -372,10 +372,10 @@ namespace FTNTransport
             if (this.textBox_truck_name.Text.Length == 0) { good = false; setError(this.textBox_truck_name);
             }
             if (this.textBox_truck_licenseplate.Text.Length == 0) { good = false; setError(this.textBox_truck_licenseplate); }
-            if (this.textBox_truck_cargocapacity.Text.Length == 0) { good = false; setError(this.textBox_truck_cargocapacity); }
+            if (this.textBox_truck_vin.Text.Length == 0) { good = false; setError(this.textBox_truck_vin); }
             if (this.textBox_truck_mpg.Text.Length == 0 || !isNumeric(this.textBox_truck_mpg.Text)) { good = false; setError(this.textBox_truck_mpg); }
             if (good == false) return;
-            MyWebServices.WebService.insertTruckDB(this,new string[]{ this.textBox_truck_name.Text, this.textBox_truck_licenseplate.Text,this.textBox_truck_cargocapacity.Text,this.textBox_truck_mpg.Text });
+            MyWebServices.WebService.insertTruckDB(this,new string[]{ this.textBox_truck_name.Text, this.textBox_truck_licenseplate.Text,this.textBox_truck_vin.Text,this.textBox_truck_mpg.Text });
             clearErrors();
             MyWebServices.WebService.loadTruckDB(this);
         }
