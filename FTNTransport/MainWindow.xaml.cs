@@ -31,13 +31,62 @@ namespace FTNTransport
 
         public MainWindow()
         {
-            InitializeComponent();
-            intit();
-            loadDB();
-            populateStates();
+            InitializeComponent();//GUI
+            intit();//Data structures
+            loadDB();//Web calls
            
         }
-       
+        /// <summary>
+        /// Initialize all fields.
+        /// </summary>
+        private void intit()
+        {
+            trucks_loaded = false;
+            destinations_loaded = false;
+            customers_loaded = false;
+            drivers_loaded = false;
+            dictionary_drivers = new Dictionary<string, Driver>();
+            dictionary_orders = new Dictionary<long, Order>();
+            dictionary_customers = new Dictionary<string, Customer>();
+            dictionary_destination = new Dictionary<string, Destination>();
+            dictionary_trucks = new Dictionary<string, Truck>();
+            populateHarcodedItems();
+
+        }
+        /// <summary>
+        /// Shipping_line,military_time,cargo
+        /// </summary>
+        private async void populateHarcodedItems()
+        {
+            string[] arr = { "20ST", "40ST", "40HC", "45HC" };
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                this.comboBox_size.Items.Add(arr[i]);
+            }
+            string[] cargo = { "Loaded", "Empty" };
+            foreach (string s in cargo)
+            {
+                this.comboBox_cargo.Items.Add(s);
+            }
+            string[] sl = { "APL", "MSK", "MSC", "KLINE", "NYK", "EVE", "COSCO", "WHL", "UA", "OOCL", "SEALAND", "HMM", "PIL", "YML", "HAPAG", "MOL" };
+            Array.Sort(sl);
+            foreach (string line in sl)
+            {
+                this.comboBox_shippingLine.Items.Add(line);
+            }
+            for (int i = 0; i < 60; ++i)
+            {
+                string format = i.ToString("0#");
+                if (i < 24)
+                {
+                    this.comboBox_time_hours.Items.Add(format);//fill hours
+                }
+
+                this.comboBox_time_min.Items.Add(format);
+
+            }
+            this.populateStates();
+        }
         private async void populateStates()
         {
             foreach (State.CODES sc in Enum.GetValues(typeof(State.CODES))) {
@@ -145,6 +194,11 @@ namespace FTNTransport
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
         }
+        /// <summary>
+        /// Wait till the orders are all loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
            if(customers_loaded && trucks_loaded && drivers_loaded && destinations_loaded)
@@ -154,31 +208,7 @@ namespace FTNTransport
              }
             // code goes here
         }
-        /// <summary>
-        /// Initialize all fields.
-        /// </summary>
-        private void intit()
-        {
-            trucks_loaded = false;
-            destinations_loaded = false;
-            customers_loaded = false;
-            drivers_loaded = false;
-            dictionary_drivers = new Dictionary<string, Driver>();
-            dictionary_orders = new Dictionary<long, Order>();
-            dictionary_customers = new Dictionary<string, Customer>();
-            dictionary_destination = new Dictionary<string, Destination>();
-
-            dictionary_trucks = new Dictionary<string, Truck>();
-            string[] arr = { "20ST", "40ST", "40HC", "45HC" };
-            for (int i = 0; i < arr.Length; ++i)
-            {
-                this.comboBox_size.Items.Add(arr[i]);
-            }
-            string[] cargo = { "Loaded","Empty"};
-            foreach (string s in cargo) {
-                this.comboBox_cargo.Items.Add(s);
-            }
-            }
+      
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -220,23 +250,32 @@ namespace FTNTransport
         */
         private void phone_format(object sender, TextChangedEventArgs e)
         {
-            if (textBox_phone.Text.Length <= 0) return;
-            char c = textBox_phone.Text.ToCharArray()[textBox_phone.Text.ToCharArray().Length - 1];
+            TextBox tb = (TextBox)sender;
+            format_phone(tb);
+        }
+        private void format_phone(TextBox tb)
+        {
+            if (tb.Text.Length <= 0 && tb.IsFocused || tb.Text.Length<=0) return;
+            char c = tb.Text.ToCharArray()[tb.Text.ToCharArray().Length - 1];
             try
             {
                 int x = Int32.Parse(c + "");
+               // MessageBox.Show(tb.Text);
             }
             catch (Exception ee)
             {
-                int end = textBox_phone.Text.ToCharArray().Length - 1;
-                string s = textBox_phone.Text.Substring(0, end);
-                textBox_phone.Text = s;
-                textBox_phone.SelectionStart = end;
+                if (tb.Text.Length <= 1) {
+                    tb.Text = "";
+                    return;
+                }
+                int end = tb.Text.ToCharArray().Length - 1;
+                string s = tb.Text.Substring(0, end);
+                tb.Text = s;
+                tb.SelectionStart = end;
                 Console.WriteLine(ee.ToString());
                 // textBox_phone.Background = System.Windows.Media.Brushes.Red;
             }
         }
-
        
         /// <summary>
         /// DRIVER SETTINGS INSERT TAB
@@ -469,25 +508,38 @@ namespace FTNTransport
           
             try
             {
-
-
+            
+                string lfd = null;
+                if (this.datepicker_lfd.SelectedDate != null)
+                {
+                    lfd = this.datepicker_lfd.SelectedDate.Value.ToShortDateString();
+                    
+                }
                 string cust = this.comboBox_customer.SelectedValue.ToString();
                 string container = this.comboBox_container.Text;///might have to fix this
                 string terminal = this.comboBox_terminal.SelectedValue.ToString();//start dest
                 string size = this.comboBox_size.SelectedValue.ToString();
-                string lfd = this.datepicker_lfd.SelectedDate.Value.ToShortDateString();
+                
                 string end_dest = this.comboBox_destination.SelectedValue.ToString();
                 string driver = this.comboBox_driver.SelectedValue.ToString();
                 string truck = this.comboBox_truck.SelectedValue.ToString();
-                string driver_comm = this.textBox_driverCommission_dollars.Text.ToString()+"."+this.textBox_driverCommission_cents.Text;
-                string amount = this.textBox_order_dollars.Text + "." + this.textBox_order_cents.Text;
-               // amount = amount.Replace("$","");
-                amount = amount.Replace(",","");
-                
-                string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd,amount };
-                foreach (string s in arr)//absolutely no logic checking...
+                string driver_comm = this.textBox_driverCommission_dollars.Text.ToString().Replace(",","")+"."+this.textBox_driverCommission_cents.Text;
+                string amount = this.textBox_order_dollars.Text.Replace(",","") + "." + this.textBox_order_cents.Text;
+
+                string shipping_line = this.comboBox_shippingLine.SelectedValue.ToString();
+                string cargo = this.comboBox_cargo.SelectedValue.ToString();
+                string hour = this.comboBox_time_hours.SelectedValue.ToString();
+                string min = this.comboBox_time_min.SelectedValue.ToString();
+                DateTime dt = DateTime.Parse(this.datepicker_pickup.SelectedDate.Value.ToShortDateString()+" "+hour+":"+min+":00", new CultureInfo("en-US"));
+                string pickup_sku = this.comboBox_pickup_number.Text;
+                string delivery_sku = this.comboBox_delivery_number.Text;
+
+                string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd,amount,shipping_line,cargo, dt.ToString("yyyy-MM-dd HH:mm:ss").ToString(), pickup_sku,delivery_sku };
+                for (int i=0;i<arr.Length;++i)//absolutely no logic checking...
                 {
-                    if (s == null || s.Length == 0)
+                    string s = arr[i];
+                    if (i == 10) continue;
+                    if (s == null || s.Length == 0 )
                     {
 
                         orderError();
@@ -503,7 +555,7 @@ namespace FTNTransport
             }
 
         }
-        public void orderConfirmation() {
+        public void orderConfirmation() {///refreshes fields
             foreach (ComboBox cb in FindVisualChildren<ComboBox>(tabControl))///msy cause problems. May check all textboxes not in tab control selection 3
             {
                
@@ -530,15 +582,50 @@ namespace FTNTransport
 
        
 
-        private void textBox_order_amount_TextChanged(object sender, TextChangedEventArgs e)
+     
+       
+
+        private void button_highlight_containers_Click(object sender, RoutedEventArgs e)
         {
-            var dollars = this.textBox_order_dollars;
-            
+
+
+           // string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            // Window w = new Window();
+            // w.Width = 500;
+            //w.Height=600;
+            //var window = new Window();
+            //var stackPanel = new StackPanel { Orientation = Orientation.Vertical };
+            //stackPanel.Children.Add(new Label { Content = "Label" });
+            //stackPanel.Children.Add(new Button { Content = "Button" });
+            //window.Content = stackPanel;
+            //window.Show();
+            string con = "";
+            foreach (long id in this.dictionary_orders.Keys) {
+                con += this.dictionary_orders[id].container +Environment.NewLine;
+            }
+            System.Windows.Clipboard.SetText(con);
+            MessageBox.Show("Text has been copied!");
+        }
+
+        private void textBox_driverCommission_dollars_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text.Length <= 0 || !tb.IsFocused) return;
+            format_money(tb);
+        }
+
+        private void format_money(TextBox tb)
+        {
+            var dollars = tb;
+
             long amount = 0;
             try
             {
-                amount = long.Parse(dollars.Text.Replace(",",""));
-                dollars.Text = amount.ToString("#,###", new CultureInfo("en-US"));
+                amount = long.Parse(dollars.Text.Replace(",", ""));
+                if (dollars.Text.Length == 1) { dollars.Text = amount.ToString("#,##0", new CultureInfo("en-US")); }
+                else {
+                    dollars.Text = amount.ToString("#,#00", new CultureInfo("en-US"));
+                }
                 dollars.SelectionStart = dollars.Text.Length;
 
             }
@@ -547,67 +634,9 @@ namespace FTNTransport
             {
                 Console.WriteLine(ee.ToString());
                 dollars.Text = "";
-            }
+            
         }
-
-        private void textBox_order_cents_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           var cents = this.textBox_order_cents;
-            if (cents.Text.Length >2) {
-                cents.Text = cents.Text.Substring(0,2);
-                cents.SelectionStart = 2;
-                return;
-            }
-            int amount = 0;
-            try
-            {
-                amount = int.Parse(cents.Text);
-                cents.Text = amount.ToString("##", new CultureInfo("en-US"));
-
-            }
-            catch (Exception ee)
-
-            {
-                Console.WriteLine(ee.ToString());
-                cents.Text = "";
-            }
-        }
-        //for the driver commision dollar amount
-        private void textBox_driverCommission_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox t = ((TextBox)sender);
-            if (t.Name.ToLower().Contains("dollars")) {
-                string comm = t.Text.Replace(",", "");
-                try
-                {
-                   int amount = int.Parse(comm);
-                    t.Text = amount.ToString("#,###", new CultureInfo("en-US"));
-                    t.SelectionStart = t.Text.Length;
-                }
-                catch (Exception ee)
-                {
-                    Console.Write(ee.ToString());
-                    t.Text = "";
-                }
-            }else if (t.Name.ToLower().Contains("cents"))
-            {
-                string comm = t.Text;
-                if (comm.Length > 2)
-                {
-                    t.Text = comm.Substring(0,2);
-                }
-                try
-                {
-                    int amount = int.Parse(comm);
-                    t.SelectionStart = 2;
-                    
-                }
-                catch (Exception ee)
-                {
-                    Console.Write(ee.ToString());
-                }
-            }
-        }
+    }
 
         /// <summary>
         /// Attempts to dynamically format string to currency

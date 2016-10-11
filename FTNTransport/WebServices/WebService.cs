@@ -445,6 +445,15 @@ new KeyValuePair<string, string>("size",arr[8] ),
         new KeyValuePair<string, string>("created",DateTime.Now.ToString()),
 
          new KeyValuePair<string, string>("amount",arr[11]),
+
+
+         new KeyValuePair<string, string>("shipping_line",arr[12]),
+        new KeyValuePair<string, string>("cargo",arr[13]),
+        new KeyValuePair<string, string>("pickup_datetime",arr[14]),
+
+         new KeyValuePair<string, string>("pickup_sku",arr[15]),
+          new KeyValuePair<string, string>("delivery_sku",arr[16]),
+
           new KeyValuePair<string, string>("insert","true")
     };
                 var content = new FormUrlEncodedContent(pairs);
@@ -455,7 +464,7 @@ new KeyValuePair<string, string>("size",arr[8] ),
                    
                         MessageBox.Show("Success. Order has been added!");
                          mw.orderConfirmation();
-                   //loadDestinationDB(mw);
+                    loadOrderDB(mw);
                 }
             }
             catch (Exception eee)
@@ -520,12 +529,31 @@ new KeyValuePair<string, string>("size",arr[8] ),
                         string container = item.GetValue("container").ToString();
                         string size = item.GetValue("size").ToString();
                         int terminal = int.Parse(item.GetValue("terminal").ToString());
-                        DateTime lfd = DateTime.Parse(item.GetValue("lfd").ToString());//,"yyyy-MM-dd HH:mm:ss",CultureInfo.CreateSpecificCulture("en-US"));
+                        string l = item.GetValue("lfd").ToString();
+
+                        DateTime? lfd = null;
+                        if (l != null && l.Length > 0)
+                        {
+                            lfd = DateTime.Parse(l);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        }
                         decimal amount = decimal.Parse(item.GetValue("amount").ToString());
-                       
+                        ///
+                        string shipping_line = item.GetValue("shipping_line").ToString();
+                        string cargo = item.GetValue("cargo").ToString();
+                        string pkup = item.GetValue("pickup_datetime").ToString();
+                        DateTime? picku_datetime = null;
+                        if (pkup != null && pkup.Length > 0)
+                        {
+                            
+                            picku_datetime = DateTime.Parse(pkup);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        }
+                        string pickup_sku = (item.GetValue("pickup_sku").ToString());
+                        string delivery_sku = (item.GetValue("delivery_sku").ToString());
+
 
                         Order o = new Order(mw,order_number,driver_id,truck_id,start_dest_id,end_dest_id,cust_id,oc,shipped,delivered
-                            ,lfd,status,terminal,container,size,comm,amount);
+                            ,lfd,status,terminal,container,size,comm,amount,shipping_line,cargo,picku_datetime,
+                            pickup_sku,delivery_sku);
                         //MessageBox.Show(o.container);
                         if (!mw.dictionary_orders.ContainsKey(o.order_number))
                         {
