@@ -65,9 +65,9 @@
             </TabItem>
             <TabItem Header="View Orders" FontWeight="Normal" Height="20" VerticalAlignment="Top" IsSelected="True" >
                 <Grid  Background="#FFE5E5E5">
-                    <ListView x:Name="listView_order" Margin="0,100,0,0" FontSize="13.333">
+                    <ListView x:Name="listView_order" Margin="0,100,0,0" FontSize="13.333" MouseDoubleClick="listview_onDoubleClick">
                         <ListView.View>
-                            <GridView ColumnHeaderStringFormat="" AllowsColumnReorder="False">
+                            <GridView ColumnHeaderStringFormat="" AllowsColumnReorder="True">
 
                                 <GridViewColumn Header="Order Number" Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
                                 <GridViewColumn Header="Date Created"  Width="Auto" DisplayMemberBinding="{Binding order_created}"/>

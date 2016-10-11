@@ -1,0 +1,54 @@
+﻿<Window x:Class="FTNTransport.Windows.OrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FTNTransport.Windows"
+        mc:Ignorable="d"
+        Title="ACBA Dispatch: Order Window" Height="700" Width="850">
+    <Grid Background="#FFE5E5E5" RenderTransformOrigin="-0.561,0.735" Margin="0,28,0,0" >
+
+        <ComboBox x:Name="comboBox_customer" HorizontalAlignment="Left" Margin="102,4,0,0" VerticalAlignment="Top" Width="301" Height="22" />
+        <Label x:Name="label" Content="Customer:" HorizontalAlignment="Left" Margin="5,3,0,0" VerticalAlignment="Top" Width="80" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+        <Label x:Name="label_Copy" Content="Container:" HorizontalAlignment="Left" Margin="5,35,0,0" VerticalAlignment="Top" Width="81" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+        <Label x:Name="label_Copy1" Content="Size:" HorizontalAlignment="Left" Margin="415,36,0,0" VerticalAlignment="Top" Width="44" Background="Transparent" FontSize="16" FontFamily="Cambria Math"  Height="24"/>
+        <ComboBox x:Name="comboBox_size" HorizontalAlignment="Left" Margin="415,66,0,0" VerticalAlignment="Top" Width="65" Height="22" RenderTransformOrigin="1.349,0.392"/>
+        <Label x:Name="label_Copy2" Content="Pick Up:" HorizontalAlignment="Left" Margin="5,64,0,0" VerticalAlignment="Top" Width="77" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
+        <ComboBox x:Name="comboBox_container" HorizontalAlignment="Left" Margin="102,35,0,0" VerticalAlignment="Top" Width="300" Height="22" IsEditable="True" />
+        <ComboBox x:Name="comboBox_terminal"  HorizontalAlignment="Left" Margin="102,64,0,0" VerticalAlignment="Top" Width="300"  Height="22"/>
+        <Label x:Name="label_lfd" Content="Last Free Day:" HorizontalAlignment="Left" Margin="5,95,0,0" VerticalAlignment="Top" Width="106" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+        <DatePicker Name="datepicker_lfd" HorizontalAlignment="Left" Margin="135,95,0,0" VerticalAlignment="Top" Width="271" FontSize="16" Height="27"/>
+        <Label x:Name="label_Copy4" Content="Delivery&#xD;&#xA; Destination:" HorizontalAlignment="Left" Margin="5,116,0,0" VerticalAlignment="Top" Width="95" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="45"/>
+        <ComboBox x:Name="comboBox_destination" HorizontalAlignment="Left" Margin="115,135,0,0" VerticalAlignment="Top" Width="290"  Height="22"/>
+        <Label x:Name="label_Copy5" Content="Assign Driver:" HorizontalAlignment="Left" Margin="5,172,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+        <ComboBox x:Name="comboBox_driver" HorizontalAlignment="Left" Margin="115,172,0,0" VerticalAlignment="Top" Width="290"  Height="22"/>
+        <Border BorderThickness="2" Height="30" Margin="0,-29,0,0" VerticalAlignment="Top" BorderBrush="Red" Background="#FFE5E5E5" >
+            <Label x:Name="label3" Content="Add Leg"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="384,-3,261,-14" Height="45" Width="195"/>
+        </Border>
+        <Label x:Name="label_Copy6" Content="Assign Truck:" HorizontalAlignment="Left" Margin="5,208,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+        <ComboBox x:Name="comboBox_truck" HorizontalAlignment="Left" Margin="114,208,0,0" VerticalAlignment="Top" Width="290"  Height="22"/>
+        <Button x:Name="button_createLeg" Content="Create Leg&#xD;&#xA;" Margin="576,256,0,0" FontSize="13.333"  Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="168" Click="button_createLeg_Click"/>
+        <Label x:Name="label_Copy3" Content="Driver Commission: $" HorizontalAlignment="Left" Margin="416,172,0,0" VerticalAlignment="Top" Width="160" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+        <TextBox x:Name="textBox_driverCommission_dollars" HorizontalAlignment="Left" Height="23" Margin="576,172,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1" TextChanged="textBox_driverCommission_dollars_TextChanged"  />
+        <Label x:Name="label_Copy8" Content="Order Amount: $" HorizontalAlignment="Left" Margin="450,208,0,0" VerticalAlignment="Top" Width="125" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+        <TextBox x:Name="textBox_order_dollars" TextChanged="textBox_driverCommission_dollars_TextChanged" HorizontalAlignment="Left" Height="23" Margin="576,208,0,0" VerticalAlignment="Top" Width="134" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1"  TextAlignment="Right"    />
+        <TextBox x:Name="textBox_order_cents" TextChanged="textBox_driverCommission_dollars_TextChanged" HorizontalAlignment="Left" Height="23" Margin="720,208,0,0" VerticalAlignment="Top" Width="23" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1" MaxLength="2" />
+        <Label x:Name="label_Copy7" Content="." HorizontalAlignment="Left" Margin="705,184,0,0" VerticalAlignment="Top" Width="19" Background="Transparent" FontFamily="Cambria Math" Height="52" FontSize="48" />
+        <Label x:Name="label_Copy9" Content="." HorizontalAlignment="Left" Margin="635,146,0,0" VerticalAlignment="Top" Width="19" Background="Transparent" FontFamily="Cambria Math" Height="52" FontSize="48" />
+        <TextBox x:Name="textBox_driverCommission_cents" TextChanged="textBox_driverCommission_dollars_TextChanged"  HorizontalAlignment="Left" Height="23" Margin="650,172,0,0" VerticalAlignment="Top" Width="23" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1" MaxLength="2" />
+        <ComboBox x:Name="comboBox_shippingLine" HorizontalAlignment="Left" Margin="502,66,0,0" VerticalAlignment="Top" Width="188" Height="22" RenderTransformOrigin="1.349,0.392"/>
+        <Label x:Name="label_Copy10" Content="Shipping Line:" HorizontalAlignment="Left" Margin="508,36,0,0" VerticalAlignment="Top" Width="170" Background="Transparent" FontSize="16" FontFamily="Cambria Math"  Height="29"/>
+        <Label x:Name="label_Copy11" Content="Cargo:" HorizontalAlignment="Left" Margin="714,36,0,0" VerticalAlignment="Top" Width="75" Background="Transparent" FontSize="16" FontFamily="Cambria Math"  Height="33"/>
+        <ComboBox x:Name="comboBox_cargo" Margin="709,66,0,0" VerticalAlignment="Top" Height="22" RenderTransformOrigin="1.349,0.392" HorizontalAlignment="Left" Width="87"/>
+        <Label x:Name="label_Copy12" Content="Pick Up #:" HorizontalAlignment="Left" Margin="5,240,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+        <Label x:Name="label_Copy13" Content="Delivery #:" HorizontalAlignment="Left" Margin="5,269,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
+        <ComboBox x:Name="comboBox_pickup_number"  HorizontalAlignment="Left" Margin="114,240,0,0" VerticalAlignment="Top" Width="290" Height="22" IsEditable="True" />
+        <ComboBox x:Name="comboBox_delivery_number" HorizontalAlignment="Left" Margin="114,269,0,0" VerticalAlignment="Top" Width="290" Height="22" IsEditable="True" />
+        <Label x:Name="label_lfd_Copy" Content="Assign Pick Up Date:" HorizontalAlignment="Left" Margin="416,95,0,0" VerticalAlignment="Top" Width="150" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+        <DatePicker x:Name="datepicker_pickup" HorizontalAlignment="Left" Margin="566,95,0,0" VerticalAlignment="Top" Width="230" FontSize="16" Height="27"/>
+        <Label x:Name="label_lfd_Copy1" Content="Assign Pick Up Time:" HorizontalAlignment="Left" Margin="416,130,0,0" VerticalAlignment="Top" Width="157" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
+        <ComboBox x:Name="comboBox_time_hours" HorizontalAlignment="Left" Margin="576,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
+        <ComboBox x:Name="comboBox_time_min" HorizontalAlignment="Left" Margin="634,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
+        <Label x:Name="label_Copy14" Content=":" HorizontalAlignment="Left" Margin="619,119,0,0" VerticalAlignment="Top" Width="22" Background="Transparent" FontFamily="Cambria Math" Height="39" FontSize="26.667" />
+    </Grid>
+</Window>

@@ -9,6 +9,7 @@ using MyStates;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Globalization;
+using FTNTransport.Windows;
 
 namespace FTNTransport
 {
@@ -637,6 +638,15 @@ namespace FTNTransport
             
         }
     }
+
+       private void listview_onDoubleClick(object sender, RoutedEventArgs e)
+        {
+            OrderWindow o = new OrderWindow();
+            //o.Show();
+            o.ShowDialog();
+
+            MessageBox.Show(sender.ToString());
+        }
 
         /// <summary>
         /// Attempts to dynamically format string to currency
