@@ -86,6 +86,7 @@ namespace MyWebServices
                 Console.WriteLine(eee.ToString());
             }
         }
+
         //POST data to driver.php 
         public static async void insertDriverDB(MainWindow mw,string[] arr)
         {
@@ -581,6 +582,52 @@ new KeyValuePair<string, string>("size",arr[8] ),
                     "ACBA Dispatch Program",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+        }
+        public static async void Login(LoginWindow lw)
+        {
+            try
+            {
+                string username = lw.textBox_username.Text;
+                string password = Encryption.encrypt(lw.passwordBox.Password);
+               
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("login", Encryption.encrypt("acbaloginacba")),
+                      new KeyValuePair<string, string>("password", password),
+                          new KeyValuePair<string, string>("username", username),
+
+
+         new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/login.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string json = await response.Content.ReadAsStringAsync();
+                   // MessageBox.Show(username+" "+password+" json: "+json );
+                    long id = long.Parse(json);
+                    lw.user_id = id;
+                    lw.Close();
+                        
+                        
+                }
+                
+            }
+            catch (Exception eee)
+            {
+                MessageBox.Show(
+                       "Username/password did not match.",
+                       "ACBA Dispatch Program",
+                       MessageBoxButton.OK,
+                       MessageBoxImage.Error);
+
+            }
         }
     }///end namespace
 }//end class

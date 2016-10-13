@@ -23,6 +23,7 @@ namespace FTNTransport
         public bool trucks_loaded;
         public bool drivers_loaded;
         public bool destinations_loaded;
+        public long user_id = -1;
 
         public Dictionary<string, Driver> dictionary_drivers { set; get; }
         public Dictionary<long, Order> dictionary_orders { set; get; }
@@ -32,6 +33,9 @@ namespace FTNTransport
 
         public MainWindow()
         {
+            LoginWindow lw = new LoginWindow();
+            lw.ShowDialog();
+            this.user_id = lw.user_id;
             InitializeComponent();//GUI
             intit();//Data structures
             loadDB();//Web calls

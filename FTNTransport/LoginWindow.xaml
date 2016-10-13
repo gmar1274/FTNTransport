@@ -1,0 +1,32 @@
+﻿<Window x:Class="FTNTransport.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FTNTransport" WindowStartupLocation="CenterScreen"
+         Closing="DataWindow_Closing"
+        mc:Ignorable="d"
+        Title="ACBA Dispatch Program: Login Window" Height="268.421" Width="500" FontFamily="Cambria Math" FontSize="21.333">
+    <Grid>
+        <TextBox x:Name="textBox_username" HorizontalAlignment="Left" Height="23" Margin="118,58,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="250" FontFamily="Cambria Math" FontSize="16"/>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="23" Margin="118,95,0,0"  VerticalAlignment="Top" Width="250" FontSize="16" FontFamily="Cambria Math" />
+
+        <TextBlock IsHitTestVisible="False" Text="Username" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="118,58,0,0" Foreground="DarkGray" Width="109">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=textBox_username}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+
+        <Button x:Name="button" Content="LOGIN" HorizontalAlignment="Left" Margin="150,175,0,0" VerticalAlignment="Top" Width="182" Height="44" FontSize="16" FontFamily="Cambria Math" Click="button_Click"/>
+
+
+    </Grid>
+</Window>

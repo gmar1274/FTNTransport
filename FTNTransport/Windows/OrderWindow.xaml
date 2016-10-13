@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTNTransport.Windows"
-        mc:Ignorable="d"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="ACBA Dispatch: Order Window" Height="700" Width="850">
     <Grid Background="#FFE5E5E5" RenderTransformOrigin="-0.561,0.735" Margin="0,28,0,0" >
 
