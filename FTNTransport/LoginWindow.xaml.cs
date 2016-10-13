@@ -57,6 +57,15 @@ namespace FTNTransport
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            if(this.textBox_username.Text.Length==0 || this.passwordBox.Password.Length == 0)
+            {
+                MessageBox.Show(
+                "Username and Password are required.",
+                "ACBA Dispatch Program",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+                return;
+            }
             MyWebServices.WebService.Login(this);
         }
     }

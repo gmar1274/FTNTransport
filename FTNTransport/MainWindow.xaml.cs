@@ -36,6 +36,7 @@ namespace FTNTransport
             LoginWindow lw = new LoginWindow();
             lw.ShowDialog();
             this.user_id = lw.user_id;
+           // MessageBox.Show(this.user_id.ToString());
             InitializeComponent();//GUI
             intit();//Data structures
             loadDB();//Web calls
@@ -315,7 +316,7 @@ namespace FTNTransport
             if (good)
             {
 
-                MyWebServices.WebService.insertDriverDB(this,new string[] { textBox_fname.Text, textBox_mname.Text, textBox_lname.Text, textBox_email.Text, textBox_phone.Text,this.textBox_bankname.Text });
+                MyWebServices.WebService.insertDriverDB(this,new string[] { textBox_fname.Text, textBox_mname.Text, textBox_lname.Text, textBox_email.Text, textBox_phone.Text,this.textBox_driver_rn.Text,this.textBox_driver_an.Text,this.textBox_bankname.Text });
                 ///will update
                 //send db
                 clearErrors();

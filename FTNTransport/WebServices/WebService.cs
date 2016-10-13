@@ -24,6 +24,7 @@ namespace MyWebServices
     {
                     new KeyValuePair<string, string>("driver", Encryption.encrypt("acbadriveracba")),
 
+ new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
     };
 
@@ -106,6 +107,7 @@ namespace MyWebServices
         new KeyValuePair<string, string>("routing_number", arr[5]),
         new KeyValuePair<string, string>("account_number", arr[6]),
         new KeyValuePair<string, string>("bank", arr[7]),
+        new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
 
                     new KeyValuePair<string, string>("insert","true")// Company.Name)
 
@@ -146,6 +148,7 @@ namespace MyWebServices
           new KeyValuePair<string, string>("city", arr[2]),
         new KeyValuePair<string, string>("state",arr[3] ),
         new KeyValuePair<string, string>("zipcode", arr[4]),
+        new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("insert","true")// Company.Name)
     };
                 bool isterminal = false;
@@ -162,6 +165,7 @@ namespace MyWebServices
         new KeyValuePair<string, string>("state",arr[3] ),
         new KeyValuePair<string, string>("zipcode", arr[4]),
          new KeyValuePair<string, string>("insert","true"),// Company.Name),
+         new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("terminal","true")// Company.Name)
     };
                 }
@@ -200,7 +204,7 @@ namespace MyWebServices
                 var pairs = new List<KeyValuePair<string, string>>
     {
                     new KeyValuePair<string, string>("destination", Encryption.encrypt("acbadestinationacba")),
-
+new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
     };
 
@@ -265,6 +269,7 @@ namespace MyWebServices
          new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
           new KeyValuePair<string, string>("vin", arr[2]),
           new KeyValuePair<string, string>("mpg", arr[3]),
+          new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("insert","true")
     };
 
@@ -294,6 +299,7 @@ namespace MyWebServices
 
                 var pairs = new List<KeyValuePair<string, string>>
     {
+                    new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
                     new KeyValuePair<string, string>("truck", Encryption.encrypt("acbatruckacba")),
 
          new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
@@ -343,6 +349,7 @@ namespace MyWebServices
 
                 var pairs = new List<KeyValuePair<string, string>>
     {
+                    new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
                     new KeyValuePair<string, string>("customer", Encryption.encrypt("acbacustomeracba")),
         new KeyValuePair<string, string>("name", arr[0]),
          new KeyValuePair<string, string>("email", arr[1]),
@@ -380,7 +387,7 @@ namespace MyWebServices
                 var pairs = new List<KeyValuePair<string, string>>
     {
                     new KeyValuePair<string, string>("customer", Encryption.encrypt("acbacustomeracba")),
-
+new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
     };
 
@@ -454,7 +461,7 @@ new KeyValuePair<string, string>("size",arr[8] ),
 
          new KeyValuePair<string, string>("pickup_sku",arr[15]),
           new KeyValuePair<string, string>("delivery_sku",arr[16]),
-
+          new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
           new KeyValuePair<string, string>("insert","true")
     };
                 var content = new FormUrlEncodedContent(pairs);
@@ -489,7 +496,7 @@ new KeyValuePair<string, string>("size",arr[8] ),
                 var pairs = new List<KeyValuePair<string, string>>
     {
                     new KeyValuePair<string, string>("order", Encryption.encrypt("acbaorderacba")),
-
+                    new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
          new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
     };
 
