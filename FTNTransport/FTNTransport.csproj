@@ -62,7 +62,9 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Trip.cs" />
     <Compile Include="Objects\Truck.cs" />
+    <Compile Include="Objects\Utils.cs" />
     <Compile Include="WebServices\WebService.cs" />
     <Compile Include="Windows\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using FTNTransport;
+using FTNTransport.Objects;
 using System;
 using System.Globalization;
 
@@ -37,11 +38,11 @@ public class Order
         )
 	{
         this.order_number=on;
-        this.driver_name = getDriver(mw,driver);
-        this.truck_name = getTruck(mw,truck);
-        this.start_dest_name = getDestination(mw,sd);
-        this.end_dest_name = getDestination(mw,ed);
-        this.customer_name = getCustomer(mw,cust);
+        this.driver_name = Utils.getDriver(mw,driver);
+        this.truck_name = Utils.getTruck(mw,truck);
+        this.start_dest_name = Utils.getDestination(mw,sd);
+        this.end_dest_name = Utils.getDestination(mw,ed);
+        this.customer_name = Utils.getCustomer(mw,cust);
         this.order_created = oc;
         this.out_for_delivery = shipped;
         this.delivery_confirmation = delivered;
@@ -50,7 +51,7 @@ public class Order
         this.container = con;
         this.size = size;
         this.driver_commission = comm;
-        this.terminal = getDestination(mw,terminal);
+        this.terminal = Utils.getDestination(mw,terminal);
         this.amount = amount;
         formatted_amount = amount.ToString("C", new CultureInfo("en-US"));
         this.formatted_commission=comm.ToString("C", new CultureInfo("en-US"));
@@ -66,46 +67,5 @@ public class Order
 
     public Order() { }
 
-    private string getCustomer(MainWindow mw, long cust)
-    {
-        Customer c = null;
-        foreach (string id in mw.dictionary_customers.Keys) {
-            c = mw.dictionary_customers[id];
-            if (c.id == cust) return c.name;
-        }
-        return null;
-    }
-
-    private string getDestination(MainWindow mw, long dest)
-    {
-        Destination d = null;
-        foreach (string id in mw.dictionary_destination.Keys)
-        {
-            d = mw.dictionary_destination[id];
-            if (d.id == dest) return d.name;
-        }
-        return null;
-    }
-
-    private string getTruck(MainWindow mw,long truck)
-    {
-        Truck t = null;
-        foreach (string id in mw.dictionary_trucks.Keys)
-        {
-           t = mw.dictionary_trucks[id];
-            if (t.id == truck) return t.name;
-        }
-        return null;
-    }
-
-    private string getDriver(MainWindow mw, long driver)
-    {
-        Driver d = null;
-        foreach (string id in mw.dictionary_drivers.Keys)
-        {
-            d = mw.dictionary_drivers[id];
-            if (d.id == driver) return d.name;
-        }
-        return null;
-    }
+   
 }

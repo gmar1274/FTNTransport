@@ -7,6 +7,7 @@ using System.Net.Http;
 using FTNTransport;
 using System.Windows;
 using System.Globalization;
+using FTNTransport.Windows;
 
 namespace MyWebServices
 {
@@ -634,6 +635,128 @@ new KeyValuePair<string, string>("size",arr[8] ),
                        MessageBoxButton.OK,
                        MessageBoxImage.Error);
 
+            }
+        }
+        /////////////////////
+        //////////Trip.php
+        //////////////////////
+        //POST data to trip.php
+        /***
+        array index: orderno,user_id,start_dest,end_dest,start_dt,end_dt,driver,driver_comm,truck,cargo,status
+        */ 
+        public static async void insertTripDB(MainWindow mw,OrderWindow ow, string[] arr)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("trip", Encryption.encrypt("acbatripacba")),
+         new KeyValuePair<string, string>("company_name","ftntransport"),// Company.Name)
+                                                                         //string[] arr = new string[] { driver, terminal, end_dest, driver_comm, truck, "pending...", cust, container, size, terminal, lfd };
+
+        new KeyValuePair<string, string>("order_number", arr[0]),
+          new KeyValuePair<string, string>("user_id", arr[1]),
+        new KeyValuePair<string, string>("start_dest_id",mw.dictionary_destination[arr[2]].id.ToString()),//start pos
+        new KeyValuePair<string, string>("end_dest_id",mw.dictionary_destination[arr[3]].id.ToString()),
+        new KeyValuePair<string, string>("created",DateTime.Now.ToString()),
+        new KeyValuePair<string, string>("start_datetime",null),
+        new KeyValuePair<string, string>("end_datetime",null),
+        new KeyValuePair<string, string>("driver_id", mw.dictionary_drivers[ arr[6]].id.ToString()),//get the id of the driver
+        new KeyValuePair<string, string>("driver_commission",arr[7] ),
+        new KeyValuePair<string, string>("truck_id", mw.dictionary_trucks[arr[8]].id.ToString()),
+        new KeyValuePair<string, string>("cargo",arr[9]),
+        new KeyValuePair<string, string>("status",arr[10] ),
+        
+         
+        // new KeyValuePair<string, string>("pickup_sku",arr[15]),
+        //  new KeyValuePair<string, string>("delivery_sku",arr[16]),
+          new KeyValuePair<string, string>("insert","true")
+    };
+                var content = new FormUrlEncodedContent(pairs);
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/trip.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+
+                    MessageBox.Show("Success. Trip has been added!");
+                    mw.tripConfirmation();
+                    loadTripDB(mw,ow);
+                }
+            }
+            catch (Exception eee)
+            {
+
+                Error();
+                Console.WriteLine(eee.ToString());
+            }
+        }
+        /// <summary>
+        /// SELECT * FROM `order` O, `driver` D, `destination` DD, `destination` DDD, `truck` T WHERE O.driver_id=D.id AND O.start_destination_id=DD.id AND O.end_destination_id=DDD.id AND O.truck_id=T.id 
+        /// </summary>
+        /// <param name="mw"></param>
+        public static async void loadTripDB(MainWindow mw,OrderWindow ow)
+        {
+            try
+            {
+
+                var client = new HttpClient();
+
+                var pairs = new List<KeyValuePair<string, string>>
+    {
+                    new KeyValuePair<string, string>("order", Encryption.encrypt("acbatripacba")),
+                    new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
+         new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
+    };
+
+                var content = new FormUrlEncodedContent(pairs);
+
+                HttpResponseMessage response = await client.PostAsync("http://www.acbasoftware.com/ftntransport/trip.php", content);
+                response.EnsureSuccessStatusCode();
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    // MessageBox.Show(json);
+                    JArray a = JArray.Parse(json);
+                    for (int i = 0; i < a.Count; ++i)
+                    {
+                        var item = (JObject)a[i];
+                        long order_number = long.Parse(item.GetValue("order_number").ToString());
+                        long driver_id = long.Parse(item.GetValue("driver_id").ToString());
+                        long start_dest_id = long.Parse(item.GetValue("start_destination_id").ToString());
+                        long end_dest_id = long.Parse(item.GetValue("end_destination_id").ToString());
+
+                        DateTime shipped = DateTime.Parse(item.GetValue("start_datetime").ToString());//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        //out for delivery
+                        string delivered_date = item.GetValue("end_datetime").ToString();
+                        
+                        DateTime? delivered = null;
+                        if (delivered_date != null && delivered_date.Length > 0)
+                        {
+                            delivered = DateTime.Parse(delivered_date);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        }
+                        decimal comm = decimal.Parse(item.GetValue("driver_commission").ToString());
+                        long truck_id = long.Parse(item.GetValue("truck_id").ToString());
+                        string status = item.GetValue("status").ToString();
+                       
+                        //string pickup_sku = (item.GetValue("pickup_sku").ToString());
+                       // string delivery_sku = (item.GetValue("delivery_sku").ToString());
+                        Trip t = new Trip(mw, order_number,mw.user_id, start_dest_id, end_dest_id,shipped,delivered, driver_id,comm, truck_id,status );
+                        //MessageBox.Show(o.container);
+
+
+                        ow.listView_leg.Items.Add(t);
+                        
+                    }
+                    //loadTripDB(mw);
+                }///////response from server was good
+
+            }
+            catch (Exception eee)
+            {
+                Console.WriteLine("HEREEEEEEEEE:: " + eee.ToString());
+                Error();
             }
         }
     }///end namespace

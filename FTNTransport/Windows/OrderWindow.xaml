@@ -23,7 +23,7 @@
         <Label x:Name="label_Copy5" Content="Assign Driver:" HorizontalAlignment="Left" Margin="5,172,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
         <ComboBox x:Name="comboBox_driver" HorizontalAlignment="Left" Margin="115,172,0,0" VerticalAlignment="Top" Width="290"  Height="22"/>
         <Border BorderThickness="2" Height="30" Margin="0,-29,0,0" VerticalAlignment="Top" BorderBrush="Red" Background="#FFE5E5E5" >
-            <Label x:Name="label3" Content="Add Leg"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="384,-3,261,-14" Height="45" Width="195"/>
+            <Label x:Name="label3" Content="Add Trip"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="384,-3,261,-14" Height="45" Width="195"/>
         </Border>
         <Label x:Name="label_Copy6" Content="Assign Truck:" HorizontalAlignment="Left" Margin="5,208,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
         <ComboBox x:Name="comboBox_truck" HorizontalAlignment="Left" Margin="114,208,0,0" VerticalAlignment="Top" Width="290"  Height="22"/>
@@ -50,12 +50,33 @@
         <ComboBox x:Name="comboBox_time_hours" HorizontalAlignment="Left" Margin="576,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <ComboBox x:Name="comboBox_time_min" HorizontalAlignment="Left" Margin="634,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <Label x:Name="label_Copy14" Content=":" HorizontalAlignment="Left" Margin="619,119,0,0" VerticalAlignment="Top" Width="22" Background="Transparent" FontFamily="Cambria Math" Height="39" FontSize="26.667" />
-        <ListView x:Name="listView_leg" Height="50" Margin="5,341,5,0" VerticalAlignment="Top">
+        <ListView x:Name="listView_leg" Height="64" Margin="5,308,5,0" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Order No." DisplayMemberBinding="{Binding order_number}"/>
-                    <GridViewColumn Header="Starting Destination" DisplayMemberBinding="{Binding terminal}"/>
-                    <GridViewColumn Header="Final Destination" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Order No." Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
+                    <GridViewColumn Header="Date Created"  Width="Auto" DisplayMemberBinding="{Binding order_created}"/>
+                    <GridViewColumn Header="Terminal"  Width="Auto" DisplayMemberBinding="{Binding terminal}"/>
+                    <GridViewColumn Header="Truck"  Width="Auto" DisplayMemberBinding="{Binding truck_name}"/>
+                    <GridViewColumn Header="Driver"  Width="Auto" DisplayMemberBinding="{Binding driver_name}"/>
+                    <GridViewColumn Header="Driver Commission"  Width="Auto" DisplayMemberBinding="{Binding formatted_commission}"/>
+                    <GridViewColumn Header="Date Picked Up/Shipped"  Width="Auto" DisplayMemberBinding="{Binding out_for_delivery}"/>
+
+                    <GridViewColumn Header="Status"  Width="Auto" DisplayMemberBinding="{Binding status}"/>
+                    <GridViewColumn Header="Customer"  Width="Auto" DisplayMemberBinding="{Binding customer_name}"/>
+                    <GridViewColumn Header="Date Delivered"  Width="Auto" DisplayMemberBinding="{Binding delivery_confirmation}"/>
+                    <GridViewColumn Header="Last Free Day (LFD)"  Width="Auto" DisplayMemberBinding="{Binding lfd}"/>
+                    <GridViewColumn Header="Container"  Width="Auto" DisplayMemberBinding="{Binding container}"/>
+                    <GridViewColumn Header="Size"  Width="Auto" DisplayMemberBinding="{Binding size}"/>
+
+                    <GridViewColumn Header="Order Amount"  Width="Auto" DisplayMemberBinding="{Binding formatted_amount}"/>
+
+                    <GridViewColumn Header="Shipping Line"  Width="Auto" DisplayMemberBinding="{Binding shipping_line}"/>
+                    <GridViewColumn Header="Cargo"  Width="Auto" DisplayMemberBinding="{Binding cargo}"/>
+                    <GridViewColumn Header="Terminal Pickup Date"  Width="Auto" DisplayMemberBinding="{Binding pickup_datetime}"/>
+                    <GridViewColumn Header="Pickup #"  Width="Auto" DisplayMemberBinding="{Binding pickup_sku}"/>
+                    <GridViewColumn Header="Delivery #"  Width="Auto" DisplayMemberBinding="{Binding delivery_sku}"/>
+                    <GridViewColumn Header="Final Destination"  Width="Auto" DisplayMemberBinding="{Binding end_dest_name}"/>
+
                 </GridView>
             </ListView.View>
         </ListView>
@@ -63,13 +84,13 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Order No." DisplayMemberBinding="{Binding order_number}"/>
-                    <GridViewColumn Header="Leg No." DisplayMemberBinding="{Binding terminal}"/>
-                    <GridViewColumn Header="Starting Destination" DisplayMemberBinding="{Binding terminal}"/>
-                    <GridViewColumn Header="End Destination" DisplayMemberBinding="{Binding end_dest_name}"/>
-                    <GridViewColumn Header="Driver" DisplayMemberBinding="{Binding end_dest_name}"/>
-                    <GridViewColumn Header="Truck" DisplayMemberBinding="{Binding end_dest_name}"/>
-                    <GridViewColumn Header="Pickup Date/Time" DisplayMemberBinding="{Binding end_dest_name}"/>
-                    <GridViewColumn Header="Delivery Date/Time" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Starting Destination" DisplayMemberBinding="{Binding start_destination}"/>
+                    <GridViewColumn Header="End Destination" DisplayMemberBinding="{Binding end_destination}"/>
+                    <GridViewColumn Header="Driver" DisplayMemberBinding="{Binding driver}"/>
+                    <GridViewColumn Header="Driver Commission" DisplayMemberBinding="{Binding driver_commission}"/>
+                    <GridViewColumn Header="Truck" DisplayMemberBinding="{Binding truck}"/>
+                    <GridViewColumn Header="Pickup Date/Time" DisplayMemberBinding="{Binding start_datetime}"/>
+                    <GridViewColumn Header="Delivery Date/Time" DisplayMemberBinding="{Binding end_datetime}"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding status}"/>
                 </GridView>
             </ListView.View>

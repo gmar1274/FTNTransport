@@ -75,7 +75,7 @@
                                 <GridViewColumn Header="Truck"  Width="Auto" DisplayMemberBinding="{Binding truck_name}"/>
                                 <GridViewColumn Header="Driver"  Width="Auto" DisplayMemberBinding="{Binding driver_name}"/>
                                 <GridViewColumn Header="Driver Commission"  Width="Auto" DisplayMemberBinding="{Binding formatted_commission}"/>
-                                <GridViewColumn Header="Date Picked Up/Shipped"  Width="Auto" DisplayMemberBinding="{Binding out_for_delivery}"/>
+                                <GridViewColumn Header="Date/Time Shipped"  Width="Auto" DisplayMemberBinding="{Binding out_for_delivery}"/>
 
                                 <GridViewColumn Header="Status"  Width="Auto" DisplayMemberBinding="{Binding status}"/>
                                 <GridViewColumn Header="Customer"  Width="Auto" DisplayMemberBinding="{Binding customer_name}"/>

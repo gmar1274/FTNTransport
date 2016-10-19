@@ -1,0 +1,32 @@
+﻿
+using FTNTransport;
+using FTNTransport.Objects;
+using System;
+public class Trip
+    {
+    public long order_number { set; get; }
+    public long user_id { set; get; }
+    public string start_destination { set; get; }
+    public string end_destination { set; get; }
+    public DateTime? start_datetime { set; get; }
+    public DateTime? end_datetime { set; get; }
+    public string driver { set; get; }
+    public Decimal driver_commission { set; get; }
+    public string truck { set; get; }
+    public string status { set; get; }
+
+    public Trip(MainWindow mw,long on, long uid,long sd,long ed, DateTime? sdt, DateTime? edt,long did,Decimal driver_comm,long tid,string status)
+        {
+        this.order_number = on;
+        this.user_id = uid;
+        this.start_destination = Utils.getDestination(mw,sd);
+        this.end_destination = Utils.getDestination(mw, ed);
+        this.start_datetime = sdt;
+        this.end_datetime = edt;
+        this.driver = Utils.getDriver(mw, did);
+        this.driver_commission = driver_comm;
+        this.truck = Utils.getTruck(mw, tid);
+        this.status = status;
+        }
+    }
+

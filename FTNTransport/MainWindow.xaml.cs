@@ -578,7 +578,7 @@ namespace FTNTransport
         /// <summary>
         /// Just display an error. Later will implement logic checking like highlight the error..
         /// </summary>
-        private void orderError()
+        public void orderError()
         {
             MessageBox.Show(
                     "Error. Recheck your fields.\nNo data has been saved.",
@@ -647,16 +647,15 @@ namespace FTNTransport
 
        private void listview_onDoubleClick(object sender, RoutedEventArgs e)
         {
-            OrderWindow o = new OrderWindow();
             // o.listView_leg.Items[0]= ((DataRowView)((ListView)sender).SelectedItem)["Order No."].ToString();
             // long on = long.Parse(((DataRowView)((ListView)sender).SelectedItem)["Order No."].ToString());
             //  o.listView_leg.Items.Add(this.dictionary_orders[on]);
             ListView l = (ListView)sender;
             Order or = (Order)l.SelectedItem;
-            MessageBox.Show(or.order_number+" "+or.driver_name);
-            o.listView_leg.Items.Add(or);
-            o.Show();
-            // o.ShowDialog();
+           // MessageBox.Show(or.order_number+" "+or.driver_name);
+            OrderWindow o = new OrderWindow(this,or);
+           
+             o.ShowDialog();
             // Populate list
             //this.listView.Items.Add(new MyItem { Id = 1, Name = "David" });
             //((DataRowView)((ListView)sender).SelectedItem)["column_name"].ToString();
@@ -667,6 +666,9 @@ namespace FTNTransport
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
+        public void tripConfirmation()
+        {
+            this.orderConfirmation();
+        }
     }
 }
