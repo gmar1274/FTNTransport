@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Globalization;
 using FTNTransport.Windows;
+using System.Data;
 
 namespace FTNTransport
 {
@@ -647,10 +648,18 @@ namespace FTNTransport
        private void listview_onDoubleClick(object sender, RoutedEventArgs e)
         {
             OrderWindow o = new OrderWindow();
-            //o.Show();
-            o.ShowDialog();
-
-            MessageBox.Show(sender.ToString());
+            // o.listView_leg.Items[0]= ((DataRowView)((ListView)sender).SelectedItem)["Order No."].ToString();
+            // long on = long.Parse(((DataRowView)((ListView)sender).SelectedItem)["Order No."].ToString());
+            //  o.listView_leg.Items.Add(this.dictionary_orders[on]);
+            ListView l = (ListView)sender;
+            Order or = (Order)l.SelectedItem;
+            MessageBox.Show(or.order_number+" "+or.driver_name);
+            o.listView_leg.Items.Add(or);
+            o.Show();
+            // o.ShowDialog();
+            // Populate list
+            //this.listView.Items.Add(new MyItem { Id = 1, Name = "David" });
+            //((DataRowView)((ListView)sender).SelectedItem)["column_name"].ToString();
         }
 
         /// <summary>

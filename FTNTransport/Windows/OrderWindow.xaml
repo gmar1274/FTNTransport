@@ -50,5 +50,29 @@
         <ComboBox x:Name="comboBox_time_hours" HorizontalAlignment="Left" Margin="576,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <ComboBox x:Name="comboBox_time_min" HorizontalAlignment="Left" Margin="634,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <Label x:Name="label_Copy14" Content=":" HorizontalAlignment="Left" Margin="619,119,0,0" VerticalAlignment="Top" Width="22" Background="Transparent" FontFamily="Cambria Math" Height="39" FontSize="26.667" />
+        <ListView x:Name="listView_leg" Height="50" Margin="5,341,5,0" VerticalAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Order No." DisplayMemberBinding="{Binding order_number}"/>
+                    <GridViewColumn Header="Starting Destination" DisplayMemberBinding="{Binding terminal}"/>
+                    <GridViewColumn Header="Final Destination" DisplayMemberBinding="{Binding end_dest_name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listView_leg_Copy" Margin="5,407,5,4">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Order No." DisplayMemberBinding="{Binding order_number}"/>
+                    <GridViewColumn Header="Leg No." DisplayMemberBinding="{Binding terminal}"/>
+                    <GridViewColumn Header="Starting Destination" DisplayMemberBinding="{Binding terminal}"/>
+                    <GridViewColumn Header="End Destination" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Driver" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Truck" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Pickup Date/Time" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Delivery Date/Time" DisplayMemberBinding="{Binding end_dest_name}"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding status}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

@@ -69,7 +69,7 @@
                         <ListView.View>
                             <GridView ColumnHeaderStringFormat="" AllowsColumnReorder="True">
 
-                                <GridViewColumn Header="Order Number" Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
+                                <GridViewColumn Header="Order No." Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
                                 <GridViewColumn Header="Date Created"  Width="Auto" DisplayMemberBinding="{Binding order_created}"/>
                                 <GridViewColumn Header="Terminal"  Width="Auto" DisplayMemberBinding="{Binding terminal}"/>
                                 <GridViewColumn Header="Truck"  Width="Auto" DisplayMemberBinding="{Binding truck_name}"/>
@@ -91,6 +91,7 @@
                                 <GridViewColumn Header="Terminal Pickup Date"  Width="Auto" DisplayMemberBinding="{Binding pickup_datetime}"/>
                                 <GridViewColumn Header="Pickup #"  Width="Auto" DisplayMemberBinding="{Binding pickup_sku}"/>
                                 <GridViewColumn Header="Delivery #"  Width="Auto" DisplayMemberBinding="{Binding delivery_sku}"/>
+                                <GridViewColumn Header="Final Destination"  Width="Auto" DisplayMemberBinding="{Binding end_dest_name}"/>
 
                             </GridView>
                         </ListView.View>
