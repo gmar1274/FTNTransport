@@ -44,7 +44,7 @@ namespace MyWebServices
                     for (int i = 0; i < a.Count; ++i)
                     {
                         var item = (JObject)a[i];
-                        long id = Int64.Parse(item.GetValue("id").ToString());
+                        long id = long.Parse(item.GetValue("id").ToString());
                         string fname = item.GetValue("fname").ToString();
                         string mname = item.GetValue("mname").ToString();
                         string lname = item.GetValue("lname").ToString();
@@ -53,9 +53,10 @@ namespace MyWebServices
                         string rn = item.GetValue("routing_number").ToString();
                         string an = item.GetValue("account_number").ToString();
                         string bank = item.GetValue("bank").ToString();
-
-
-                        Driver d = new Driver(id, fname, mname, lname, email, phone,rn,an,bank);
+                        string cdl_expr = item.GetValue("cdl_expr").ToString();
+                        string medical_expr = item.GetValue("medical_expr").ToString();
+                        DateTime created = DateTime.Parse(item.GetValue("created").ToString());
+                        Driver d = new Driver(id, fname, mname, lname, email, phone,rn,an,bank,cdl_expr,medical_expr,created);
                         if (!mw.dictionary_drivers.ContainsKey(d.name))
                         {
                             mw.dictionary_drivers.Add(d.name, d);
@@ -109,6 +110,10 @@ namespace MyWebServices
         new KeyValuePair<string, string>("account_number", arr[6]),
         new KeyValuePair<string, string>("bank", arr[7]),
         new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
+         new KeyValuePair<string, string>("cdl_expr", arr[8]),
+          new KeyValuePair<string, string>("medical_expr", arr[9]),
+           new KeyValuePair<string, string>("created", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+            new KeyValuePair<string, string>("password",Encryption.encrypt(arr[10])),
 
                     new KeyValuePair<string, string>("insert","true")// Company.Name)
 
@@ -271,6 +276,8 @@ new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
           new KeyValuePair<string, string>("vin", arr[2]),
           new KeyValuePair<string, string>("mpg", arr[3]),
           new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
+          new KeyValuePair<string, string>("rfid",arr[4]),
+          new KeyValuePair<string, string>("created",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
          new KeyValuePair<string, string>("insert","true")
     };
 
@@ -318,12 +325,14 @@ new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
                     for (int i = 0; i < a.Count; ++i)
                     {
                         var item = (JObject)a[i];
-                        long id = Int64.Parse(item.GetValue("id").ToString());
+                        long id = long.Parse(item.GetValue("id").ToString());
                         string name = item.GetValue("name").ToString();
                         string lp = item.GetValue("license_plate").ToString();
                         string vin = item.GetValue("vin").ToString();
-                        int mpg = Int32.Parse(item.GetValue("mpg").ToString());
-                        Truck t = new Truck(id, name, lp, vin,mpg);
+                        int mpg = int.Parse(item.GetValue("mpg").ToString());
+                        DateTime created = DateTime.Parse(item.GetValue("created").ToString());
+                        string rfid = item.GetValue("rfid").ToString();
+                        Truck t = new Truck(id, name, lp, vin,mpg,created,rfid);
                         if (!mw.dictionary_trucks.ContainsKey(t.name))
                         {
                             mw.dictionary_trucks.Add(t.name, t);
@@ -667,8 +676,8 @@ new KeyValuePair<string, string>("size",arr[8] ),
         new KeyValuePair<string, string>("truck_id", mw.dictionary_trucks[arr[9]].id.ToString()),
         new KeyValuePair<string, string>("cargo",arr[10]),
         new KeyValuePair<string, string>("status",arr[11] ),
-        
-         
+         new KeyValuePair<string, string>("delivery_sku",arr[12] ),
+          new KeyValuePair<string, string>("pickup_sku",arr[13] ),
         // new KeyValuePair<string, string>("pickup_sku",arr[15]),
         //  new KeyValuePair<string, string>("delivery_sku",arr[16]),
           new KeyValuePair<string, string>("insert","true")
@@ -749,10 +758,10 @@ new KeyValuePair<string, string>("size",arr[8] ),
                         long truck_id = long.Parse(item.GetValue("truck_id").ToString());
                         string status = item.GetValue("status").ToString();
                         string cargo = item.GetValue("cargo").ToString();
-                        //string pickup_sku = (item.GetValue("pickup_sku").ToString());
-                        // string delivery_sku = (item.GetValue("delivery_sku").ToString());
+                        string pickup_sku = (item.GetValue("pickup_sku").ToString());
+                        string delivery_sku = (item.GetValue("delivery_sku").ToString());
                       
-                        Trip t = new Trip(mw, order_number, mw.user_id, start_dest_id, end_dest_id, pickup_datetime, shipped, delivered, driver_id, comm, truck_id, cargo, status);
+                        Trip t = new Trip(mw, order_number, mw.user_id, start_dest_id, end_dest_id, pickup_datetime, shipped, delivered, driver_id, comm, truck_id, cargo, status, delivery_sku, pickup_sku);
                         //MessageBox.Show(o.container);
 
 

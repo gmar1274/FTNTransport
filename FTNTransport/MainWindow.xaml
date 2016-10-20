@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTNTransport"
         mc:Ignorable="d" MinWidth="400" MinHeight="200" Closing="DataWindow_Closing"
-        Title="ACBA Dispatch Program" Height="424" Width="824.091" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Background="{x:Null}" FontFamily="Cambria Math">
+        Title="ACBA Dispatch Program" Height="511.5" Width="824.091" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Background="{x:Null}" FontFamily="Cambria Math">
 
 
     <DockPanel>
@@ -38,7 +38,7 @@
                     </Border>
                     <Label x:Name="label_Copy6" Content="Assign Truck:" HorizontalAlignment="Left" Margin="5,208,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
                     <ComboBox x:Name="comboBox_truck" HorizontalAlignment="Left" Margin="114,208,0,0" VerticalAlignment="Top" Width="290"  Height="22"/>
-                    <Button x:Name="button_createOrder" Content="Create order" Margin="0,0,5,5" FontSize="13.333" Click="button_createOrder_Click" Height="54" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="152"/>
+                    <Button x:Name="button_createOrder" Content="Create order" Margin="0,260,5,5" FontSize="13.333" Click="button_createOrder_Click" HorizontalAlignment="Right" Width="152"/>
                     <Label x:Name="label_Copy3" Content="Driver Commission: $" HorizontalAlignment="Left" Margin="416,172,0,0" VerticalAlignment="Top" Width="160" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
                     <TextBox x:Name="textBox_driverCommission_dollars" HorizontalAlignment="Left" Height="23" Margin="576,172,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.483,-0.144" FontSize="16" MaxLines="1" TextChanged="textBox_driverCommission_dollars_TextChanged"  />
                     <Label x:Name="label_Copy8" Content="Order Amount: $" HorizontalAlignment="Left" Margin="450,208,0,0" VerticalAlignment="Top" Width="125" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
@@ -135,7 +135,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Driver Settings" FontWeight="Normal" >
-                <Grid Background="#FFE5E5E5" >
+                <Grid Background="#FFE5E5E5" Width="810" Margin="0,0,0,-7" >
                     <Border BorderThickness="1" Height="30" Margin="5,4,3,0" VerticalAlignment="Top" BorderBrush="Red" >
                         <Label x:Name="label1" Content="Create New Driver"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                     </Border>
@@ -149,15 +149,15 @@
                     <Label x:Name="label2_Copy3" Content="Phone:" HorizontalAlignment="Left" Margin="248,66,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="61" FontSize="16"/>
                     <TextBox x:Name="textBox_email" HorizontalAlignment="Left" Height="23" Margin="313,41,0,0" VerticalAlignment="Top" Width="389" FontSize="16" MaxLines="1" MinLines="1"/>
                     <TextBox x:Name="textBox_phone" HorizontalAlignment="Left" Height="23" Margin="313,66,0,0" VerticalAlignment="Top" Width="142" FontSize="16" MaxLines="1" MinLines="1" HorizontalScrollBarVisibility="Auto" MaxLength="10" TextChanged="phone_format"/>
-                    <Button x:Name="button" Content="Create driver" HorizontalAlignment="Left" Margin="602,89,0,0" VerticalAlignment="Top" Width="101" Height="88" Click="button_Click" FontSize="13.333"/>
-                    <Border BorderThickness="1" Height="30" Margin="5,186,3,0" VerticalAlignment="Top" BorderBrush="Red" >
+                    <Button x:Name="button" Content="Create driver" HorizontalAlignment="Left" Margin="692,125,0,0" VerticalAlignment="Top" Width="101" Height="52" Click="button_Click" FontSize="13.333"/>
+                    <Border BorderThickness="1" Height="30" Margin="0,242,1,0" VerticalAlignment="Top" BorderBrush="Red" >
                         <Label x:Name="label4" Content="Driver Information"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                     </Border>
                     <Grid Margin="8,164,0,61">
-                        <Grid Margin="0,0,0,-56">
+                        <Grid Margin="0,2,0,-59">
 
 
-                            <ListView x:Name="listView_driver" FontSize="13" Margin="-10,55,0,-8"   >
+                            <ListView x:Name="listView_driver" FontSize="13" Margin="-10,110,0,2"   >
 
                                 <ListView.View>
                                     <GridView AllowsColumnReorder="False">
@@ -172,6 +172,10 @@
 
                                         <GridViewColumn Width="Auto" Header="Routing Number" DisplayMemberBinding="{Binding routing_number}"/>
                                         <GridViewColumn Width="Auto" Header="Account Number" DisplayMemberBinding="{Binding account_number}"/>
+                                        <GridViewColumn Width="Auto" Header="CDL Expr." DisplayMemberBinding="{Binding cdl_expr}"/>
+                                        <GridViewColumn Width="Auto" Header="Medical Expr." DisplayMemberBinding="{Binding medical_expr}"/>
+                                        <GridViewColumn Width="Auto" Header="Date Commissioned" DisplayMemberBinding="{Binding date_commissioned}"/>
+
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -179,12 +183,22 @@
                         </Grid>
 
                     </Grid>
-                    <Label x:Name="label2_Copy4" Content="Routing Number:" HorizontalAlignment="Left" Margin="248,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="127" FontSize="16"/>
-                    <Label x:Name="label2_Copy5" Content="Account Number:" HorizontalAlignment="Left" Margin="248,126,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="131" FontSize="16"/>
-                    <TextBox x:Name="textBox_driver_rn" MaxLength="22" HorizontalAlignment="Left" Height="23" Margin="381,94,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
-                    <TextBox x:Name="textBox_driver_an" MaxLength="22" HorizontalAlignment="Left" Height="23" Margin="382,126,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
-                    <Label x:Name="label2_Copy6" Content="Bank Name:" HorizontalAlignment="Left" Margin="248,152,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="131" FontSize="16"/>
-                    <TextBox x:Name="textBox_bankname" HorizontalAlignment="Left" Height="23" Margin="382,153,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <Label x:Name="label2_Copy4" Content="Routing Number:" HorizontalAlignment="Left" Margin="281,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="127" FontSize="16"/>
+                    <Label x:Name="label2_Copy5" Content="Account Number:" HorizontalAlignment="Left" Margin="281,126,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="131" FontSize="16"/>
+                    <TextBox x:Name="textBox_driver_rn" MaxLength="22" HorizontalAlignment="Left" Height="23" Margin="420,94,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <TextBox x:Name="textBox_driver_an" MaxLength="22" HorizontalAlignment="Left" Height="23" Margin="420,126,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <Label x:Name="label2_Copy6" Content="Bank Name:" HorizontalAlignment="Left" Margin="281,152,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="131" FontSize="16"/>
+                    <TextBox x:Name="textBox_bankname" HorizontalAlignment="Left" Height="23" Margin="420,153,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <Label x:Name="label2_Copy7" Content="CDL Exp:" HorizontalAlignment="Left" Margin="5,118,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="78" FontSize="16"/>
+                    <Label x:Name="label2_Copy8" Content="Medical&#xA;Exp:" HorizontalAlignment="Left" Margin="5,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="73" FontSize="16"/>
+                    <Label x:Name="label2_Copy9" Content="Password:" HorizontalAlignment="Left" Margin="281,181,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.154,0.069" Width="131" FontSize="16"/>
+                    <TextBox x:Name="textBox_driver_password" HorizontalAlignment="Left" Height="23" Margin="420,181,0,0" VerticalAlignment="Top" Width="199" FontSize="16" MaxLines="1" MinLines="1"/>
+                    <ComboBox x:Name="comboBox_cdl_month" HorizontalAlignment="Left" Margin="80,124,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.508,-1.668"/>
+                    <ComboBox x:Name="comboBox_cdl_day" HorizontalAlignment="Left" Margin="133,124,0,0" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.508,-1.668"/>
+                    <ComboBox x:Name="comboBox_cdl_year" HorizontalAlignment="Left" Margin="190,124,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.508,-1.668"/>
+                    <ComboBox x:Name="comboBox_medical_year" HorizontalAlignment="Left" Margin="190,161,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.508,-1.668"/>
+                    <ComboBox x:Name="comboBox_medical_day" HorizontalAlignment="Left" Margin="133,161,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.508,-1.668"/>
+                    <ComboBox x:Name="comboBox_medical_month" HorizontalAlignment="Left" Margin="80,161,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.508,-1.668"/>
 
                 </Grid>
             </TabItem>
@@ -217,7 +231,7 @@
                     <Label x:Name="label9_Copy5" Content="License Plate:" HorizontalAlignment="Left" Margin="5,70,0,0" VerticalAlignment="Top" Width="109" FontSize="16" Height="25"/>
                     <TextBox x:Name="textBox_truck_licenseplate" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,70,0,0" VerticalAlignment="Top" Width="248" FontSize="16" TextChanged="textBox_truck_licenseplate_TextChanged"/>
                     <TextBox x:Name="textBox_truck_vin"  MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,100,0,0" VerticalAlignment="Top" Width="248" FontSize="16"/>
-                    <Button x:Name="button_truck" Content="Create truck" HorizontalAlignment="Left" Margin="546,39,0,0" VerticalAlignment="Top" Width="145" Height="82" FontSize="13.333" Click="button_truck_Click"/>
+                    <Button x:Name="button_truck" Content="Create truck" Margin="661,100,4,0" VerticalAlignment="Top" Height="51" FontSize="13.333" Click="button_truck_Click"/>
                     <Label x:Name="label9_Copy7" Content="MPG:" HorizontalAlignment="Left" Margin="379,40,0,0" VerticalAlignment="Top" Width="55" FontSize="16" Height="32"/>
                     <TextBox x:Name="textBox_truck_mpg" MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="431,40,0,0" VerticalAlignment="Top" Width="83" FontSize="16" TextChanged="textBox_truck_mpg_TextChanged"/>
                     <ListView x:Name="listView_truck" Margin="0,246,0,1" FontSize="13.333" >
@@ -228,11 +242,16 @@
                                 <GridViewColumn Width="Auto" Header="License Plate" DisplayMemberBinding="{Binding license_plate}"/>
                                 <GridViewColumn Width="Auto" Header="VIN #" DisplayMemberBinding="{Binding vin}"/>
                                 <GridViewColumn Width="Auto" Header="MPG" DisplayMemberBinding="{Binding mpg}"/>
+                                <GridViewColumn Width="Auto" Header="RFID #" DisplayMemberBinding="{Binding rfid}"/>
+                                <GridViewColumn Width="Auto" Header="Date Commissioned" DisplayMemberBinding="{Binding date_commissioned}"/>
+
                             </GridView>
 
                         </ListView.View>
                     </ListView>
                     <Label x:Name="label9_Copy6" Content="VIN #:" HorizontalAlignment="Left" Margin="5,99,0,0" VerticalAlignment="Top" Width="109" FontSize="16" Height="25"/>
+                    <Label x:Name="label9_Copy8" Content="RFID #:" HorizontalAlignment="Left" Margin="5,129,0,0" VerticalAlignment="Top" Width="109" FontSize="16" Height="25"/>
+                    <TextBox x:Name="textBox_truck_rfid"  MaxLines="1" MinLines="1" HorizontalAlignment="Left" Height="23" Margin="119,129,0,0" VerticalAlignment="Top" Width="248" FontSize="16"/>
                 </Grid>
             </TabItem>
         </TabControl>

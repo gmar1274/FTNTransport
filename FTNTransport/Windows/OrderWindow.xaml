@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTNTransport.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="ACBA Dispatch: Order Window" Height="700" Width="850">
+        Title="ACBA Dispatch: Order Window" Height="645.714" Width="850">
     <Grid Background="#FFE5E5E5" RenderTransformOrigin="-0.561,0.735" Margin="0,28,0,0" >
 
         <ComboBox x:Name="comboBox_customer" HorizontalAlignment="Left" Margin="102,4,0,0" VerticalAlignment="Top" Width="301" Height="22" />
@@ -42,8 +42,8 @@
         <ComboBox x:Name="comboBox_cargo" Margin="709,66,0,0" VerticalAlignment="Top" Height="22" RenderTransformOrigin="1.349,0.392" HorizontalAlignment="Left" Width="87"/>
         <Label x:Name="label_Copy12" Content="Pick Up #:" HorizontalAlignment="Left" Margin="5,240,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
         <Label x:Name="label_Copy13" Content="Delivery #:" HorizontalAlignment="Left" Margin="5,269,0,0" VerticalAlignment="Top" Width="107" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="28" />
-        <ComboBox x:Name="comboBox_pickup_number"  HorizontalAlignment="Left" Margin="114,240,0,0" VerticalAlignment="Top" Width="290" Height="22" IsEditable="True" />
-        <ComboBox x:Name="comboBox_delivery_number" HorizontalAlignment="Left" Margin="114,269,0,0" VerticalAlignment="Top" Width="290" Height="22" IsEditable="True" />
+        <ComboBox x:Name="comboBox_pickup_number"  HorizontalAlignment="Left" Margin="114,240,0,0" VerticalAlignment="Top" Width="290" Height="22" />
+        <ComboBox x:Name="comboBox_delivery_number" HorizontalAlignment="Left" Margin="114,269,0,0" VerticalAlignment="Top" Width="290" Height="22" />
         <Label x:Name="label_lfd_Copy" Content="Assign Pick Up Date:" HorizontalAlignment="Left" Margin="416,95,0,0" VerticalAlignment="Top" Width="150" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
         <DatePicker x:Name="datepicker_pickup" HorizontalAlignment="Left" Margin="566,95,0,0" VerticalAlignment="Top" Width="230" FontSize="16" Height="27"/>
         <Label x:Name="label_lfd_Copy1" Content="Assign Pick Up Time:" HorizontalAlignment="Left" Margin="416,130,0,0" VerticalAlignment="Top" Width="157" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
@@ -80,10 +80,12 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="listView_leg" Margin="5,407,5,4">
+        <ListView x:Name="listView_leg" Margin="5,417,5,3">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Order No." DisplayMemberBinding="{Binding order_number}"/>
+                    <GridViewColumn Header="Delivery No." DisplayMemberBinding="{Binding delivery_sku}"/>
+                    <GridViewColumn Header="Pickup No." DisplayMemberBinding="{Binding pickup_sku}"/>
                     <GridViewColumn Header="Starting Destination" DisplayMemberBinding="{Binding start_destination}"/>
                     <GridViewColumn Header="End Destination" DisplayMemberBinding="{Binding end_destination}"/>
                     <GridViewColumn Header="Driver" DisplayMemberBinding="{Binding driver}"/>

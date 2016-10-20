@@ -92,6 +92,31 @@ namespace FTNTransport
                 this.comboBox_time_min.Items.Add(format);
 
             }
+            //fill in month for combo boxes in driver settings tab
+            for (int i = 1; i <= 12; ++i)
+            {
+                string format = i.ToString("0#");
+                this.comboBox_cdl_month.Items.Add(format);
+                this.comboBox_medical_month.Items.Add(format);
+
+            }
+            //fill in days
+            for (int i = 1; i <= 31; ++i)
+            {
+                string format = i.ToString("0#");
+                this.comboBox_cdl_day.Items.Add(format);
+                this.comboBox_medical_day.Items.Add(format);
+
+            }
+            //fill in year
+            int year = DateTime.Now.Year;
+            for (int i = year; i < year+20; ++i)
+            {
+                string format = i.ToString("####");
+                this.comboBox_cdl_year.Items.Add(format);
+                this.comboBox_medical_year.Items.Add(format);
+
+            }
             this.populateStates();
         }
         private async void populateStates()
@@ -295,6 +320,7 @@ namespace FTNTransport
             bool good = true;
             foreach (TextBox tb in FindVisualChildren<TextBox>(tabControl))///msy cause problems. May check all textboxes not in tab control selection 3
             {
+                if (tb == this.textBox_driver_rn || tb == this.textBox_driver_an) continue;
                 if (tb.Text.Length == 0 && tb != textBox_mname)
                 {
                     tb.Background = Brushes.Red;
@@ -314,10 +340,36 @@ namespace FTNTransport
                     tb.Background = Brushes.White;
                 }
             }
+           
+            string pass = this.textBox_driver_password.Text;
+            if (pass.Length == 0)
+            {
+                good = false;
+                setError(this.textBox_driver_password);
+            }
+            else
+            {
+                this.textBox_driver_password.Background = Brushes.White;
+            }
+            string cdl = null;
+            if (this.comboBox_cdl_month.SelectedIndex >= 0 && this.comboBox_cdl_day.SelectedIndex >= 0 && this.comboBox_cdl_year.SelectedIndex >= 0)
+            {
+                cdl = this.comboBox_cdl_year.SelectedItem + "-" + this.comboBox_cdl_month.SelectedItem + "-" + this.comboBox_cdl_day.SelectedItem;
+            }
+            else { good = false; }
+            string medical = null;
+            if (this.comboBox_medical_month.SelectedIndex >= 0 && this.comboBox_medical_day.SelectedIndex >= 0 && this.comboBox_medical_year.SelectedIndex >= 0) 
+            {
+                medical = this.comboBox_medical_year.SelectedItem + "-" + this.comboBox_medical_month.SelectedItem + "-" + this.comboBox_medical_day.SelectedItem;
+            }
+            else
+            {
+                good = false;
+            }
             if (good)
             {
 
-                MyWebServices.WebService.insertDriverDB(this,new string[] { textBox_fname.Text, textBox_mname.Text, textBox_lname.Text, textBox_email.Text, textBox_phone.Text,this.textBox_driver_rn.Text,this.textBox_driver_an.Text,this.textBox_bankname.Text });
+                MyWebServices.WebService.insertDriverDB(this,new string[] { textBox_fname.Text, textBox_mname.Text, textBox_lname.Text, textBox_email.Text, textBox_phone.Text,this.textBox_driver_rn.Text,this.textBox_driver_an.Text,this.textBox_bankname.Text,cdl,medical,pass });
                 ///will update
                 //send db
                 clearErrors();
@@ -420,8 +472,10 @@ namespace FTNTransport
             if (this.textBox_truck_licenseplate.Text.Length == 0) { good = false; setError(this.textBox_truck_licenseplate); }
             if (this.textBox_truck_vin.Text.Length == 0) { good = false; setError(this.textBox_truck_vin); }
             if (this.textBox_truck_mpg.Text.Length == 0 || !isNumeric(this.textBox_truck_mpg.Text)) { good = false; setError(this.textBox_truck_mpg); }
+            string rfid = this.textBox_truck_rfid.Text;
+            if (rfid.Length == 0) { good = false; setError(this.textBox_truck_rfid); }
             if (good == false) return;
-            MyWebServices.WebService.insertTruckDB(this,new string[]{ this.textBox_truck_name.Text, this.textBox_truck_licenseplate.Text,this.textBox_truck_vin.Text,this.textBox_truck_mpg.Text });
+            MyWebServices.WebService.insertTruckDB(this,new string[]{ this.textBox_truck_name.Text, this.textBox_truck_licenseplate.Text,this.textBox_truck_vin.Text,this.textBox_truck_mpg.Text,rfid });
             clearErrors();
             MyWebServices.WebService.loadTruckDB(this);
         }

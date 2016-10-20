@@ -16,9 +16,11 @@ public class Trip
     public string truck { set; get; }
     public string cargo { set; get; }
     public string status { set; get; }
-    
+    public string delivery_sku { set; get; }
+    public string pickup_sku{ set; get; }
 
-    public Trip(MainWindow mw,long on, long uid,long sd,long ed, DateTime pkup,DateTime? sdt, DateTime? edt,long did,Decimal driver_comm,long tid,string cargo,string status)
+
+    public Trip(MainWindow mw,long on, long uid,long sd,long ed, DateTime pkup,DateTime? sdt, DateTime? edt,long did,Decimal driver_comm,long tid,string cargo,string status,string dsku,string pkupsku)
         {
         this.order_number = on;
         this.user_id = uid;
@@ -32,6 +34,8 @@ public class Trip
         this.truck = Utils.getTruck(mw, tid);
         this.cargo = cargo;
         this.status = status;
+        this.delivery_sku = dsku;
+        this.pickup_sku = pkupsku;
         }
     }
 

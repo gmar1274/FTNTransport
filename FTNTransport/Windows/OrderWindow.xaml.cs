@@ -26,6 +26,11 @@ namespace FTNTransport.Windows
             MyWebServices.WebService.loadTripDB(mw,this,this.order.order_number);
             listView_order.Items.Add(this.order);
             populateHarcodedItems();
+            this.comboBox_delivery_number.Items.Add(this.order.delivery_sku);
+            this.comboBox_delivery_number.SelectedIndex = 0;
+            this.comboBox_pickup_number.Items.Add(this.order.pickup_sku);
+            this.comboBox_pickup_number.SelectedIndex = 0;
+
             // updates the ListView with the Order Object
         }
         private async void populateHarcodedItems()
