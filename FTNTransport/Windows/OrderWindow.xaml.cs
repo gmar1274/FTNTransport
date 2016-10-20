@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyStates;
+using System;
 
 using System.Globalization;
 
@@ -21,10 +22,61 @@ namespace FTNTransport.Windows
             this.mw = mw;
             this.order = o;
             InitializeComponent();
-            listView_leg.Items.Add(this.order);
-
+           
+            MyWebServices.WebService.loadTripDB(mw,this,this.order.order_number);
+            listView_order.Items.Add(this.order);
+            populateHarcodedItems();
             // updates the ListView with the Order Object
         }
+        private async void populateHarcodedItems()
+        {
+            string[] arr = { "20ST", "40ST", "40HC", "45HC" };
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                this.comboBox_size.Items.Add(arr[i]);
+            }
+            string[] cargo = { "Loaded", "Empty" };
+            foreach (string s in cargo)
+            {
+                this.comboBox_cargo.Items.Add(s);
+            }
+            string[] sl = { "APL", "MSK", "MSC", "KLINE", "NYK", "EVE", "COSCO", "WHL", "UA", "OOCL", "SEALAND", "HMM", "PIL", "YML", "HAPAG", "MOL" };
+            Array.Sort(sl);
+            foreach (string line in sl)
+            {
+                this.comboBox_shippingLine.Items.Add(line);
+            }
+            for (int i = 0; i < 60; ++i)
+            {
+                string format = i.ToString("0#");
+                if (i < 24)
+                {
+                    this.comboBox_time_hours.Items.Add(format);//fill hours
+                }
+
+                this.comboBox_time_min.Items.Add(format);
+
+            }
+            foreach(string id in this.mw.dictionary_destination.Keys)
+            {
+                Destination d = this.mw.dictionary_destination[id];
+                this.comboBox_destination.Items.Add(d.name);
+                this.comboBox_pickup.Items.Add(d.name);
+            }
+            foreach (string id in this.mw.dictionary_drivers.Keys)
+            {
+                Driver d = this.mw.dictionary_drivers[id];
+                this.comboBox_driver.Items.Add(d.ToString());
+            }
+            foreach (string id in this.mw.dictionary_trucks.Keys)
+            {
+                Truck t = this.mw.dictionary_trucks[id];
+                this.comboBox_truck.Items.Add(t.name);
+            }
+
+
+        }
+
         private void textBox_driverCommission_dollars_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = (TextBox)sender;
@@ -69,7 +121,7 @@ namespace FTNTransport.Windows
              //   }
                // string cust = this.comboBox_customer.SelectedValue.ToString();
                // string container = this.comboBox_container.Text;///might have to fix this
-                string start_dest = this.comboBox_terminal.SelectedValue.ToString();//start dest
+                string start_dest = this.comboBox_pickup.SelectedValue.ToString();//start dest
                // string size = this.comboBox_size.SelectedValue.ToString();
 
                 string end_dest = this.comboBox_destination.SelectedValue.ToString();
@@ -82,15 +134,15 @@ namespace FTNTransport.Windows
                 string cargo = this.comboBox_cargo.SelectedValue.ToString();
                 string hour = this.comboBox_time_hours.SelectedValue.ToString();
                 string min = this.comboBox_time_min.SelectedValue.ToString();
-                DateTime start_datetime = DateTime.Parse(this.datepicker_pickup.SelectedDate.Value.ToShortDateString() + " " + hour + ":" + min + ":00", new CultureInfo("en-US"));
+                DateTime pickup_datetime = DateTime.Parse(this.datepicker_pickup.SelectedDate.Value.ToShortDateString() + " " + hour + ":" + min + ":00", new CultureInfo("en-US"));
                 /// string pickup_sku = this.comboBox_pickup_number.Text;
                 /// string delivery_sku = this.comboBox_delivery_number.Text;
 
-                string[] arr = new string[] { this.order.order_number.ToString(), mw.user_id.ToString(), start_dest, end_dest, start_datetime.ToString("yyyy-MM-dd HH:mm:ss").ToString(), null, driver, driver_comm, truck,cargo,"out for delivery..."};//this.order.pickup_sku, this.order.delivery_sku };
+                string[] arr = new string[] { this.order.order_number.ToString(), mw.user_id.ToString(), start_dest, end_dest, pickup_datetime.ToString("yyyy-MM-dd HH:mm:ss").ToString(),null, null, driver, driver_comm, truck,cargo,"pending..."};//this.order.pickup_sku, this.order.delivery_sku };
                 for (int i = 0; i < arr.Length; ++i)//absolutely no logic checking...
                 {
                     string s = arr[i];
-                    if (i == 5) continue;
+                    if (i == 5 || i==6) continue;
                     if (s == null || s.Length == 0)
                     {
 

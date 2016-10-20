@@ -15,7 +15,7 @@
         <ComboBox x:Name="comboBox_size" HorizontalAlignment="Left" Margin="415,66,0,0" VerticalAlignment="Top" Width="65" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <Label x:Name="label_Copy2" Content="Pick Up:" HorizontalAlignment="Left" Margin="5,64,0,0" VerticalAlignment="Top" Width="77" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29"/>
         <ComboBox x:Name="comboBox_container" HorizontalAlignment="Left" Margin="102,35,0,0" VerticalAlignment="Top" Width="300" Height="22" IsEditable="True" />
-        <ComboBox x:Name="comboBox_terminal"  HorizontalAlignment="Left" Margin="102,64,0,0" VerticalAlignment="Top" Width="300"  Height="22"/>
+        <ComboBox x:Name="comboBox_pickup"  HorizontalAlignment="Left" Margin="102,64,0,0" VerticalAlignment="Top" Width="300"  Height="22"/>
         <Label x:Name="label_lfd" Content="Last Free Day:" HorizontalAlignment="Left" Margin="5,95,0,0" VerticalAlignment="Top" Width="106" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="29" />
         <DatePicker Name="datepicker_lfd" HorizontalAlignment="Left" Margin="135,95,0,0" VerticalAlignment="Top" Width="271" FontSize="16" Height="27"/>
         <Label x:Name="label_Copy4" Content="Delivery&#xD;&#xA; Destination:" HorizontalAlignment="Left" Margin="5,116,0,0" VerticalAlignment="Top" Width="95" Background="Transparent" FontSize="16" FontFamily="Cambria Math" Height="45"/>
@@ -50,7 +50,7 @@
         <ComboBox x:Name="comboBox_time_hours" HorizontalAlignment="Left" Margin="576,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <ComboBox x:Name="comboBox_time_min" HorizontalAlignment="Left" Margin="634,130,0,0" VerticalAlignment="Top" Width="45" Height="22" RenderTransformOrigin="1.349,0.392"/>
         <Label x:Name="label_Copy14" Content=":" HorizontalAlignment="Left" Margin="619,119,0,0" VerticalAlignment="Top" Width="22" Background="Transparent" FontFamily="Cambria Math" Height="39" FontSize="26.667" />
-        <ListView x:Name="listView_leg" Height="64" Margin="5,308,5,0" VerticalAlignment="Top">
+        <ListView x:Name="listView_order" Height="64" Margin="5,308,5,0" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Order No." Width="Auto" DisplayMemberBinding="{Binding order_number}"/>
@@ -80,7 +80,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="listView_leg_Copy" Margin="5,407,5,4">
+        <ListView x:Name="listView_leg" Margin="5,407,5,4">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Order No." DisplayMemberBinding="{Binding order_number}"/>

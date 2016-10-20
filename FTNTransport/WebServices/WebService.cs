@@ -659,14 +659,14 @@ new KeyValuePair<string, string>("size",arr[8] ),
           new KeyValuePair<string, string>("user_id", arr[1]),
         new KeyValuePair<string, string>("start_dest_id",mw.dictionary_destination[arr[2]].id.ToString()),//start pos
         new KeyValuePair<string, string>("end_dest_id",mw.dictionary_destination[arr[3]].id.ToString()),
-        new KeyValuePair<string, string>("created",DateTime.Now.ToString()),
-        new KeyValuePair<string, string>("start_datetime",null),
-        new KeyValuePair<string, string>("end_datetime",null),
-        new KeyValuePair<string, string>("driver_id", mw.dictionary_drivers[ arr[6]].id.ToString()),//get the id of the driver
-        new KeyValuePair<string, string>("driver_commission",arr[7] ),
-        new KeyValuePair<string, string>("truck_id", mw.dictionary_trucks[arr[8]].id.ToString()),
-        new KeyValuePair<string, string>("cargo",arr[9]),
-        new KeyValuePair<string, string>("status",arr[10] ),
+        new KeyValuePair<string, string>("pickup_datetime",arr[4]),
+        new KeyValuePair<string, string>("start_datetime",arr[5]),
+        new KeyValuePair<string, string>("end_datetime",arr[6]),
+        new KeyValuePair<string, string>("driver_id", mw.dictionary_drivers[ arr[7]].id.ToString()),//get the id of the driver
+        new KeyValuePair<string, string>("driver_commission",arr[8] ),
+        new KeyValuePair<string, string>("truck_id", mw.dictionary_trucks[arr[9]].id.ToString()),
+        new KeyValuePair<string, string>("cargo",arr[10]),
+        new KeyValuePair<string, string>("status",arr[11] ),
         
          
         // new KeyValuePair<string, string>("pickup_sku",arr[15]),
@@ -678,24 +678,24 @@ new KeyValuePair<string, string>("size",arr[8] ),
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
-
                     MessageBox.Show("Success. Trip has been added!");
                     mw.tripConfirmation();
-                    loadTripDB(mw,ow);
+                    ow.listView_leg.Items.Clear();
+                    loadTripDB(mw,ow,ow.order.order_number);
                 }
             }
             catch (Exception eee)
             {
-
                 Error();
                 Console.WriteLine(eee.ToString());
             }
         }
+
         /// <summary>
         /// SELECT * FROM `order` O, `driver` D, `destination` DD, `destination` DDD, `truck` T WHERE O.driver_id=D.id AND O.start_destination_id=DD.id AND O.end_destination_id=DDD.id AND O.truck_id=T.id 
         /// </summary>
         /// <param name="mw"></param>
-        public static async void loadTripDB(MainWindow mw,OrderWindow ow)
+        public static async void loadTripDB(MainWindow mw, OrderWindow ow, long order_no)
         {
             try
             {
@@ -704,8 +704,9 @@ new KeyValuePair<string, string>("size",arr[8] ),
 
                 var pairs = new List<KeyValuePair<string, string>>
     {
-                    new KeyValuePair<string, string>("order", Encryption.encrypt("acbatripacba")),
+                    new KeyValuePair<string, string>("trip", Encryption.encrypt("acbatripacba")),
                     new KeyValuePair<string, string>("user_id", mw.user_id.ToString()),
+                    new KeyValuePair<string, string>("order_number",order_no.ToString()),
          new KeyValuePair<string, string>("company_name","ftntransport")// Company.Name)
     };
 
@@ -715,7 +716,7 @@ new KeyValuePair<string, string>("size",arr[8] ),
                 response.EnsureSuccessStatusCode();
                 if (response.IsSuccessStatusCode)
                 {
-
+                   
                     string json = await response.Content.ReadAsStringAsync();
                     // MessageBox.Show(json);
                     JArray a = JArray.Parse(json);
@@ -727,27 +728,36 @@ new KeyValuePair<string, string>("size",arr[8] ),
                         long start_dest_id = long.Parse(item.GetValue("start_destination_id").ToString());
                         long end_dest_id = long.Parse(item.GetValue("end_destination_id").ToString());
 
-                        DateTime shipped = DateTime.Parse(item.GetValue("start_datetime").ToString());//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        DateTime pickup_datetime = DateTime.Parse(item.GetValue("pickup_datetime").ToString());
+
+                        string isshipped = item.GetValue("start_datetime").ToString();
+
+                        DateTime? shipped = null;
+                        if (isshipped != null && isshipped.Length > 0 && !isshipped.Contains("0000-00-00 00:00:00"))
+                        {
+                            shipped = DateTime.Parse(isshipped);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
+                        }
                         //out for delivery
                         string delivered_date = item.GetValue("end_datetime").ToString();
-                        
+
                         DateTime? delivered = null;
-                        if (delivered_date != null && delivered_date.Length > 0)
+                        if (delivered_date != null && delivered_date.Length > 0 && !delivered_date.Contains("0000-00-00 00:00:00"))
                         {
                             delivered = DateTime.Parse(delivered_date);//, "yyyy-MM-dd HH:mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
                         }
                         decimal comm = decimal.Parse(item.GetValue("driver_commission").ToString());
                         long truck_id = long.Parse(item.GetValue("truck_id").ToString());
                         string status = item.GetValue("status").ToString();
-                       
+                        string cargo = item.GetValue("cargo").ToString();
                         //string pickup_sku = (item.GetValue("pickup_sku").ToString());
-                       // string delivery_sku = (item.GetValue("delivery_sku").ToString());
-                        Trip t = new Trip(mw, order_number,mw.user_id, start_dest_id, end_dest_id,shipped,delivered, driver_id,comm, truck_id,status );
+                        // string delivery_sku = (item.GetValue("delivery_sku").ToString());
+                      
+                        Trip t = new Trip(mw, order_number, mw.user_id, start_dest_id, end_dest_id, pickup_datetime, shipped, delivered, driver_id, comm, truck_id, cargo, status);
                         //MessageBox.Show(o.container);
 
 
                         ow.listView_leg.Items.Add(t);
-                        
+
                     }
                     //loadTripDB(mw);
                 }///////response from server was good

@@ -23,5 +23,10 @@ public class Destination
     public override string ToString() {
         return this.name;
     }
+
+    public static implicit operator string(Destination v)
+    {
+        throw new NotImplementedException();
+    }
 }
 
