@@ -5,33 +5,26 @@ using System.Globalization;
 
 using System.Windows;
 using System.Windows.Controls;
-
+using FTNTransport.Interfaces;
+using System.Threading.Tasks;
 
 namespace FTNTransport.Windows
 {
     /// <summary>
     /// Interaction logic for OrderWindow.xaml
     /// </summary>
-    public partial class OrderWindow : Window
+    public partial class OrderWindow : Window, IOrderRepository
 
     {
-        public MainWindow mw;
-        public Order order;
+        private MainWindow mw;
+        private Order order;
         public OrderWindow(MainWindow mw,Order o)
         {
             this.mw = mw;
             this.order = o;
             InitializeComponent();
+            this.init();
            
-            MyWebServices.WebService.loadTripDB(mw,this,this.order.order_number);
-            listView_order.Items.Add(this.order);
-            populateHarcodedItems();
-            this.comboBox_delivery_number.Items.Add(this.order.delivery_sku);
-            this.comboBox_delivery_number.SelectedIndex = 0;
-            this.comboBox_pickup_number.Items.Add(this.order.pickup_sku);
-            this.comboBox_pickup_number.SelectedIndex = 0;
-
-            // updates the ListView with the Order Object
         }
         private async void populateHarcodedItems()
         {
@@ -163,6 +156,23 @@ namespace FTNTransport.Windows
                 Console.WriteLine(ee);
             }
 
+        }
+
+        public void init()
+        {
+          
+            listView_order.Items.Add(this.order);
+            populateHarcodedItems();
+            this.comboBox_delivery_number.Items.Add(this.order.delivery_sku);
+            this.comboBox_delivery_number.SelectedIndex = 0;
+            this.comboBox_pickup_number.Items.Add(this.order.pickup_sku);
+            this.comboBox_pickup_number.SelectedIndex = 0;
+
+            // updates the ListView with the Order Object
+        }
+        public Task loadLegs(Order order)
+        {
+           Task task = (() => MyWebServices.WebService.loadTripDB(mw, this, this.order.order_number));
         }
     }
 }

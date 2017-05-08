@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FTNTransport.Interfaces;
+using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+using FTNTransport.Interfaces;
+using System.Threading.Tasks;
+/***
+TEST AUTHENTICATION
+username: 9092822545 
+password: admin123
+*/
 namespace FTNTransport
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class LoginWindow : Window, ILogin
     {
-        public long user_id { set; get; }
+        private long user_id;
+        private string username, password;
         public LoginWindow()
         {
-            this.user_id = -1;//not logged in (id < 0); logged in otherwise
+            this.user_id = -1;
+            this.username = null;
+            this.password = null;
             InitializeComponent();
         }
 
@@ -67,6 +66,53 @@ namespace FTNTransport
                 return;
             }
             MyWebServices.WebService.Login(this);
+        }
+
+        public string getUsername()
+        {
+            return this.textBox_username.Text;
+        }
+
+        public string getPassword()
+        {
+            return MyEncryption.Encryption.encrypt(this.passwordBox.Password);
+        }
+
+        public long getID()
+        {
+            return this.user_id;
+        }
+
+        public bool isLoggedIn()
+        {
+            return this.user_id > 0;
+        }
+
+        public Task login()
+        {
+            Task task = new Task(() => MyWebServices.WebService.Login(this));
+            task.Start();
+            return task;
+        }
+
+        public void setUsername(string username)
+        {
+            this.username = username;
+        }
+
+        public void setPassword(string password)
+        {
+            this.password = password;
+        }
+
+        public void setID(long id)
+        {
+            this.user_id = id;
+        }
+     
+        public void closeLoginWindow()
+        {
+            this.Close();
         }
     }
 }

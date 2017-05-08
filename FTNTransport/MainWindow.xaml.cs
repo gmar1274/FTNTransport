@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using MyEncryption;
 using MyStates;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Globalization;
 using FTNTransport.Windows;
-using System.Data;
+using FTNTransport.Interfaces;
+using System.Threading.Tasks;
 
 namespace FTNTransport
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDispatchRespository
     {
         private DispatcherTimer dispatcherTimer;
         public bool customers_loaded;
@@ -36,17 +35,18 @@ namespace FTNTransport
         {
             LoginWindow lw = new LoginWindow();
             lw.ShowDialog();
-            this.user_id = lw.user_id;
+            this.user_id = lw.getID();
            // MessageBox.Show(this.user_id.ToString());
             InitializeComponent();//GUI
-            intit();//Data structures
-            loadDB();//Web calls
+            init();//Data structures
+            this.loadDataFromDatabase(lw);
+            //loadDB();//Web calls
            
         }
         /// <summary>
         /// Initialize all fields.
         /// </summary>
-        private void intit()
+        public void init()
         {
             trucks_loaded = false;
             destinations_loaded = false;
@@ -213,34 +213,7 @@ namespace FTNTransport
 
             }
         }
-        /**Load all databases*/
-        private void loadDB()
-        {
-            MyWebServices.WebService.loadDriverDB(this);//load Drivers from DB
-            MyWebServices.WebService.loadDestinationDB(this); // load destinations
-            MyWebServices.WebService.loadTruckDB(this);//load trucks
-            MyWebServices.WebService.loadCustomerDB(this);//load customers 
-            //System.Threading.Thread.Sleep(5000);
-             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            dispatcherTimer.Start();
-        }
-        /// <summary>
-        /// Wait till the orders are all loaded
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-           if(customers_loaded && trucks_loaded && drivers_loaded && destinations_loaded)
-            {
-                MyWebServices.WebService.loadOrderDB(this);//load orders
-                dispatcherTimer.Stop();
-             }
-            // code goes here
-        }
-      
+       
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -708,8 +681,7 @@ namespace FTNTransport
             Order or = (Order)l.SelectedItem;
            // MessageBox.Show(or.order_number+" "+or.driver_name);
             OrderWindow o = new OrderWindow(this,or);
-           
-             o.ShowDialog();
+            o.ShowDialog();
             // Populate list
             //this.listView.Items.Add(new MyItem { Id = 1, Name = "David" });
             //((DataRowView)((ListView)sender).SelectedItem)["column_name"].ToString();
@@ -723,6 +695,40 @@ namespace FTNTransport
         public void tripConfirmation()
         {
             this.orderConfirmation();
+        }
+
+        /**Load all databases*/
+        private void loadDB()
+        {
+            MyWebServices.WebService.loadDriverDB(this);//load Drivers from DB
+            MyWebServices.WebService.loadDestinationDB(this); // load destinations
+            MyWebServices.WebService.loadTruckDB(this);//load trucks
+            MyWebServices.WebService.loadCustomerDB(this);//load customers 
+                                                          //System.Threading.Thread.Sleep(5000);
+           // dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+           // dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            //dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            //dispatcherTimer.Start();
+        }
+        /// <summary>
+        /// Wait till the orders are all loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (customers_loaded && trucks_loaded && drivers_loaded && destinations_loaded)
+            {
+                MyWebServices.WebService.loadOrderDB(this);//load orders
+                dispatcherTimer.Stop();
+            }
+            // code goes here
+        }
+        public Task loadDataFromDatabase(ILogin loginWindow)
+        {
+            Task task = new Task(() => this.loadDB());
+            task.Start();
+            return task;
         }
     }
 }

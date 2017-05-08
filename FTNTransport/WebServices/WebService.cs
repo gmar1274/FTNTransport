@@ -8,6 +8,7 @@ using FTNTransport;
 using System.Windows;
 using System.Globalization;
 using FTNTransport.Windows;
+using FTNTransport.Interfaces;
 
 namespace MyWebServices
 {
@@ -600,15 +601,16 @@ new KeyValuePair<string, string>("size",arr[8] ),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
         }
-        public static async void Login(LoginWindow lw)
+        /**
+        Async call to http://www.acbasoftware.com/ftntransport/login.php. sends post call. Api for login.php can be found on acba server.
+            */
+        public static async void Login(ILogin lw)
         {
             try
             {
-                string username = lw.textBox_username.Text;
-                string password = Encryption.encrypt(lw.passwordBox.Password);
-               
+                string username = lw.getUsername();
+                string password = lw.getPassword();
                 var client = new HttpClient();
-
                 var pairs = new List<KeyValuePair<string, string>>
     {
                     new KeyValuePair<string, string>("login", Encryption.encrypt("acbaloginacba")),
@@ -628,11 +630,9 @@ new KeyValuePair<string, string>("size",arr[8] ),
 
                     string json = await response.Content.ReadAsStringAsync();
                    // MessageBox.Show(username+" "+password+" json: "+json );
-                    long id = long.Parse(json);
-                    lw.user_id = id;
-                    lw.Close();
-                        
-                        
+                    long id = long.Parse(json);// accepts any id > 0. Rejects otherwise
+                    lw.setID(id);
+                    lw.closeLoginWindow();
                 }
                 
             }
