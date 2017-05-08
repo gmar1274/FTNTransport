@@ -68,6 +68,7 @@
     <Compile Include="Objects\Trip.cs" />
     <Compile Include="Objects\Truck.cs" />
     <Compile Include="Objects\Utils.cs" />
+    <Compile Include="ViewModels\VMMainWindow.cs" />
     <Compile Include="WebServices\WebService.cs" />
     <Compile Include="Windows\OrderWindow.xaml.cs">
       <DependentUpon>OrderWindow.xaml</DependentUpon>
